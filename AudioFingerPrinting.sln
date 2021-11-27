@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioFingerPrinting", "AudioFingerPrinting\AudioFingerPrinting.csproj", "{CC4E9EE8-6FB5-480B-B323-BCB0FDDA352A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioFingerPrinting", "AudioFingerPrinting\AudioFingerPrinting.csproj", "{CC4E9EE8-6FB5-480B-B323-BCB0FDDA352A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLib", "CoreLib\CoreLib.csproj", "{47DA0702-EC5C-49E0-B8D1-870633DFC46C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{CC4E9EE8-6FB5-480B-B323-BCB0FDDA352A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC4E9EE8-6FB5-480B-B323-BCB0FDDA352A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC4E9EE8-6FB5-480B-B323-BCB0FDDA352A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47DA0702-EC5C-49E0-B8D1-870633DFC46C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47DA0702-EC5C-49E0-B8D1-870633DFC46C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47DA0702-EC5C-49E0-B8D1-870633DFC46C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47DA0702-EC5C-49E0-B8D1-870633DFC46C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
