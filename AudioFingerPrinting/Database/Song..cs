@@ -17,12 +17,7 @@ namespace AudioFingerPrinting.Database
 		}
 
 		[BsonId]
-		[DataMember]
-		public MongoDB.Bson.ObjectId _id { get; set; }
-
-
-		[DataMember]
-		[BsonElement("ID")]
+		[BsonElement("_id")]
 		public uint ID { get; set; }
 
 
@@ -30,6 +25,33 @@ namespace AudioFingerPrinting.Database
 		[DataMember]
 		[BsonElement("Name")]
 		public string Name { get; set; }
+
+
+		[DataMember]
+		[BsonElement("Title")]
+		public string Title { get; set; }
+
+		[DataMember]
+		[BsonElement("Artist")]
+		public string Artist { get; set; }
+
+		[DataMember]
+		[BsonElement("LinkZingMp3")]
+		public string LinkZingMp3 { get; set; }
+
+
+		[DataMember]
+		[BsonElement("LinkMV")]
+		public string LinkMV { get; set; }
+
+		[DataMember]
+		[BsonElement("Link")]
+		public string Link { get; set; }
+
+
+		[DataMember]
+		[BsonElement("Thumbnail")]
+		public string Thumbnail { get; set; }
 
 	}
 }
