@@ -42,11 +42,6 @@ namespace AudioFingerPrinting
         public  Dictionary<uint, List<ulong>>[] databases;
 
         /// <summary>
-        /// Currently used highest songID
-        /// </summary>
-        public  uint maxSongID;
-
-        /// <summary>
         /// <para>Add a new song to the database.</para>
         /// <para>WARNING: Song must be sampled at 48000Hz!</para>
         /// </summary>
@@ -391,8 +386,7 @@ namespace AudioFingerPrinting
           
             List<Fingerprint> fingerprints = _fingerprints.Find(Fingerprint => true).ToList();
 
-            maxSongID = (uint)fingerprints.Count;
-            if (maxSongID != 0)
+            if (fingerprints.Count != 0)
             {
                 var splitFingerprints = fingerprints.Select((s, i) => new { s, i })
                                         .GroupBy(x => x.i % PROCESSORS)
