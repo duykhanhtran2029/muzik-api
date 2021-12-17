@@ -19,6 +19,8 @@ namespace AudioFingerPrinting
 {
     public class Startup
     {
+        public static Recogniser recognizer;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -36,17 +38,23 @@ namespace AudioFingerPrinting
             services.AddSingleton<IDatabaseSettings>(st =>
                 st.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
-            services.AddSingleton<FingerprintsSvc>();
+            this.AddServices(ref services);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AudioFingerPrinting", Version = "v1" });
-            });
+            }); 
+        }
+
+        public void AddServices(ref IServiceCollection services)
+        {
+            services.AddSingleton<FingerprintsSvc>();
+            services.AddSingleton<SongsSvc>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDatabaseSettings settings)
         {
             if (env.IsDevelopment())
             {
@@ -54,6 +62,11 @@ namespace AudioFingerPrinting
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AudioFingerPrinting v1"));
             }
+
+            app.UseCors(x => x
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 
             app.UseHttpsRedirection();
 
@@ -65,6 +78,8 @@ namespace AudioFingerPrinting
             {
                 endpoints.MapControllers();
             });
+
+            recognizer = new Recogniser(settings);
         }
     }
 }

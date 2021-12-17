@@ -21,44 +21,30 @@ namespace CoreLib.AudioProcessing.Server
 		/// </summary>
 		/// <param name="path">Location of the audio file</param>
 		/// <returns>Audio format with parsed information</returns>
-		public static IAudioFormat GetSound(string path)
+		public static IAudioFormat GetSound(byte[] data)
 		{
-			//TODO: Wav converter for more type
-			if (path.EndsWith(".mp3"))
-            {
-				path = WavConverter(path);
-            }
 
-			byte[] data = File.ReadAllBytes(path);
-			IAudioFormat Sound;
+			IAudioFormat Sound = new WavFormat();
 
-			if (path.EndsWith(".wav"))
+			//Check if the beginning starts with RIFF (currently only supported format of wav files)
+			if (!Sound.IsCorrectFormat(new[] { data[0], data[1], data[2], data[3] }))
 			{
-				Sound = new WavFormat();
-				//Check if the beginning starts with RIFF (currently only supported format of wav files)
-				if (!Sound.IsCorrectFormat(new []{ data[0], data[1], data[2], data[3] }))
-				{
-					throw new ArgumentException($"File {path} formatted wrongly, not a 'wav' format.");
-				}
-
-				Sound.Channels = Converter.BytesToUInt(new byte[] {data[22], data[23] });
-				Sound.SampleRate = Converter.BytesToUInt(new byte[] {data[24], data[25], data[26] , data[27] });
-				Sound.ByteRate = Converter.BytesToInt(new byte[] {data[28], data[29], data[30] , data[31] });
-				Sound.BlockAlign = Converter.BytesToShort(new byte[] {data[32], data[33] });
-				Sound.BitsPerSample = Converter.BytesToShort(new byte[] {data[34], data[35] });
-
-				//gathering actual sound data
-				int dataOffset = FindDataOffset(data);
-				//nubmer of bytes divide by two (short = 2 bytes && 1 sample = 1 short)
-				Sound.NumOfDataSamples = Converter.BytesToInt(new byte[]
-					{data[dataOffset - 4], data[dataOffset - 3], data[dataOffset - 2], data[dataOffset - 1]}) / 2; 
-				var byteData = data.Skip(dataOffset).Take(Sound.NumOfDataSamples*2).ToArray();
-				Sound.Data = GetSoundDataFromBytes(byteData);
+				throw new ArgumentException($"File formatted wrongly, not a 'wav' format.");
 			}
-			else
-			{
-				throw new NotImplementedException($"Format of file {path} is not implemented.");
-			}
+
+			Sound.Channels = Converter.BytesToUInt(new byte[] { data[22], data[23] });
+			Sound.SampleRate = Converter.BytesToUInt(new byte[] { data[24], data[25], data[26], data[27] });
+			Sound.ByteRate = Converter.BytesToInt(new byte[] { data[28], data[29], data[30], data[31] });
+			Sound.BlockAlign = Converter.BytesToShort(new byte[] { data[32], data[33] });
+			Sound.BitsPerSample = Converter.BytesToShort(new byte[] { data[34], data[35] });
+
+			//gathering actual sound data
+			int dataOffset = FindDataOffset(data);
+			//nubmer of bytes divide by two (short = 2 bytes && 1 sample = 1 short)
+			Sound.NumOfDataSamples = Converter.BytesToInt(new byte[]
+				{data[dataOffset - 4], data[dataOffset - 3], data[dataOffset - 2], data[dataOffset - 1]}) / 2;
+			var byteData = data.Skip(dataOffset).Take(Sound.NumOfDataSamples * 2).ToArray();
+			Sound.Data = GetSoundDataFromBytes(byteData);
 
 			return Sound;
 		}

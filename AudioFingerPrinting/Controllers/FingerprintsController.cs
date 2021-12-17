@@ -11,11 +11,11 @@ namespace AudioFingerPrinting.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class FingerprintController : ControllerBase
+    public class FingerprintsController : ControllerBase
     {
         private readonly FingerprintsSvc _fingerprintsSvc;
 
-        public FingerprintController(FingerprintsSvc fingerprintsSvc)
+        public FingerprintsController(FingerprintsSvc fingerprintsSvc)
         {
             _fingerprintsSvc = fingerprintsSvc;
         }

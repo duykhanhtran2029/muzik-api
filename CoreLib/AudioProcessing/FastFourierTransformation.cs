@@ -6,7 +6,7 @@ using CoreLib.Extensions;
 
 namespace CoreLib.AudioProcessing
 {
-	static class FastFourierTransformation
+	public static class FastFourierTransformation
 	{
 		/// <summary>
 		/// Recursive DFT
