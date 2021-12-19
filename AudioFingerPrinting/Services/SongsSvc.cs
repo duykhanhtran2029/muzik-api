@@ -18,10 +18,10 @@ namespace AudioFingerPrinting.Servcies
             _songs = database.GetCollection<Song>(settings.SongsCollectionName);
         }
 
-        public List<Song> Get() =>
+        public List<Song> GetAll() =>
             _songs.Find(song => true).ToList();
 
-        public Song Get(uint songID)
+        public Song GetById(uint songID)
         {
             Song song = _songs.Find<Song>(s => s.ID == songID).FirstOrDefault();
             return song;
@@ -31,11 +31,6 @@ namespace AudioFingerPrinting.Servcies
         {
             _songs.InsertOne(song);
             return song;
-        }
-
-        public void FingerPrinting(byte[] data)
-        {
-            Startup.recognizer.Recognizing(data);
         }
 
     }

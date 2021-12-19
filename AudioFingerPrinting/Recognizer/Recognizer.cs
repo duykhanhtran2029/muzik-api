@@ -1,4 +1,5 @@
 ﻿using AudioFingerPrinting.Database;
+using AudioFingerPrinting.DTO;
 using CoreLib.AudioFormats;
 using CoreLib.AudioProcessing;
 using CoreLib.AudioProcessing.Server;
@@ -15,12 +16,14 @@ namespace AudioFingerPrinting
     public partial class Recogniser
     {
         public readonly IMongoCollection<Fingerprint> _fingerprints;
+        public readonly IMongoCollection<Song> _songs;
         public Recogniser(IDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
             _fingerprints = database.GetCollection<Fingerprint>(settings.TFPsCollectionName);
+            _songs = database.GetCollection<Song>(settings.SongsCollectionName);
             LoadFingerprints();
         }
 
@@ -53,7 +56,7 @@ namespace AudioFingerPrinting
         /// <param name="input">wave audio file as bytes array</param>
         /// </summary>
         /// <returns></returns>
-        public List<string> Recognizing(byte[] input)
+        public FingerPrinting_ResultDTO Recognizing(byte[] input)
         {
             //measure time of song searching
             Stopwatch stopwatch = Stopwatch.StartNew();
@@ -61,9 +64,14 @@ namespace AudioFingerPrinting
 
             List<TimeFrequencyPoint> timeFrequencyPoints = Processing(input);
             //find the best song in database
-            IEnumerable<int> result = FindBestMatch(databases, timeFrequencyPoints);
+            IEnumerable<Tuple<uint, double>> resultSong = FindBestMatch(databases, timeFrequencyPoints);
             stopwatch.Stop();
-            return null;
+            var result = new FingerPrinting_ResultDTO(stopwatch.ElapsedMilliseconds);
+            foreach (var mSong in resultSong)
+                result.matchedSongs.Add(
+                    new MatchedSong(_songs.Find(s => s.ID == mSong.Item1).FirstOrDefault(), 
+                    mSong.Item2));
+            return result;
         }
 
         /// <summary>
@@ -117,7 +125,7 @@ namespace AudioFingerPrinting
         /// <param name="database"></param>
         /// <param name="recordAddresses"></param>
         /// <returns></returns>
-        public IEnumerable<int> FindBestMatch(Dictionary<uint, List<ulong>>[] databases, List<TimeFrequencyPoint> timeFrequencyPoints)
+        public IEnumerable<Tuple<uint, double>> FindBestMatch(Dictionary<uint, List<ulong>>[] databases, List<TimeFrequencyPoint> timeFrequencyPoints)
         {
             //[address;(AbsAnchorTimes)]
             Dictionary<uint, List<uint>> recordAddresses = CreateRecordAddresses(timeFrequencyPoints);
@@ -159,7 +167,7 @@ namespace AudioFingerPrinting
         /// <param name="deltas">[songID, num of time coherent notes]</param>
         /// <param name="totalNotes">total number of notes in recording</param>
         /// <returns></returns>
-        public IEnumerable<int> MaximizeTimeCoherency(Dictionary<uint, int> deltas, int totalNotes)
+        public IEnumerable<Tuple<uint,double>> MaximizeTimeCoherency(Dictionary<uint, int> deltas, int totalNotes)
         {
             Console.WriteLine($"   Total number of notes: {totalNotes}");
             var sortedDeltas = (from entry in deltas orderby entry.Value descending select entry).Take(5);
@@ -169,7 +177,7 @@ namespace AudioFingerPrinting
                 if (songScore > 1)
                     songScore = 1;
                 Console.WriteLine($"{unchecked((int)e.Key)}: { songScore * 100:##.###}%");
-                yield return unchecked((int)e.Key);
+                yield return new Tuple<uint, double>(e.Key, songScore);
             }        
         }
 

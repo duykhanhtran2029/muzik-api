@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using System.Linq;
+using AudioFingerPrinting.DTO;
 
 namespace AudioFingerPrinting.Controllers
 {
@@ -25,26 +27,26 @@ namespace AudioFingerPrinting.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Song> Get() => _songsSvc.Get();
+        public IActionResult GetAllSongs()
+        {
+            IList<Song> listSongs = _songsSvc.GetAll();
+            if (listSongs == null || !listSongs.Any())
+                return this.NoContent();
+            return this.Ok(listSongs);
+        }
 
         [HttpGet("{songID}")]
-        public Song Get([FromRoute] uint songID) => _songsSvc.Get(songID);
+        public Song Get([FromRoute] uint songID) => _songsSvc.GetById(songID);
 
         [HttpPost("FingerPrinting")]
-        public void FingerPrinting()
+        public IActionResult FingerPrinting()
         {
             var file = new MemoryStream();
-            try
-            {
-                Request.Form.Files[0].CopyTo(file);
-                byte[] data = file.ToArray();
-                _songsSvc.FingerPrinting(data);
-            }
-            catch
-            {
-
-            }
-            
+            Request.Form.Files[0].CopyTo(file);
+            byte[] data = file.ToArray();
+            FingerPrinting_ResultDTO result = Startup.recognizer.Recognizing(data);
+            var jsonResult = Newtonsoft.Json.JsonConvert.SerializeObject(result);
+            return this.Ok(jsonResult);
         }
     }
 }
