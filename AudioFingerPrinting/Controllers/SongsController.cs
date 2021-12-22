@@ -27,16 +27,56 @@ namespace AudioFingerPrinting.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllSongs()
-        {
-            IList<Song> listSongs = _songsSvc.GetAll();
-            if (listSongs == null || !listSongs.Any())
-                return this.NoContent();
-            return this.Ok(listSongs);
-        }
+        public async Task<List<Song>> Get() => await _songsSvc.GetAsync();
 
         [HttpGet("{songID}")]
-        public Song Get([FromRoute] uint songID) => _songsSvc.GetById(songID);
+        public async Task<ActionResult<Song>> Get (uint songID)
+        {
+            var song = await _songsSvc.GetAsync(songID);
+            if (song is null)
+                return NotFound();
+            return song;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(Song newSong)
+        {
+            await _songsSvc.CreateAsync(newSong);
+
+            return CreatedAtAction(nameof(Get), new { id = newSong.Id }, newSong);
+        }
+
+        [HttpPut("{songID}")]
+        public async Task<IActionResult> Update(uint songID, Song updatedSong)
+        {
+            var song = await _songsSvc.GetAsync(songID);
+
+            if (song is null)
+            {
+                return NotFound();
+            }
+
+            updatedSong.Id = song.Id;
+
+            await _songsSvc.UpdateAsync(songID, updatedSong);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{songID}")]
+        public async Task<IActionResult> Delete(uint songID)
+        {
+            var song = await _songsSvc.GetAsync(songID);
+
+            if (song is null)
+            {
+                return NotFound();
+            }
+
+            await _songsSvc.RemoveAsync(song.Id);
+
+            return NoContent();
+        }
 
         [HttpPost("FingerPrinting")]
         public IActionResult FingerPrinting()

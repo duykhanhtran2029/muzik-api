@@ -2,7 +2,7 @@
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
 
 namespace AudioFingerPrinting.Servcies
 {
@@ -18,20 +18,19 @@ namespace AudioFingerPrinting.Servcies
             _songs = database.GetCollection<Song>(settings.SongsCollectionName);
         }
 
-        public List<Song> GetAll() =>
-            _songs.Find(song => true).ToList();
+        public async Task<List<Song>> GetAsync() =>
+            await _songs.Find(song => !song.IsDeleted).ToListAsync();
 
-        public Song GetById(uint songID)
-        {
-            Song song = _songs.Find<Song>(s => s.ID == songID).FirstOrDefault();
-            return song;
-        }
+        public async Task<Song> GetAsync(uint id) =>
+            await _songs.Find(song => song.Id == id && !song.IsDeleted).FirstOrDefaultAsync();
 
-        public Song Create(Song song)
-        {
-            _songs.InsertOne(song);
-            return song;
-        }
+        public async Task CreateAsync(Song newBook) =>
+                await _songs.InsertOneAsync(newBook);
+        public async Task UpdateAsync(uint id, Song updatedSong) =>
+            await _songs.ReplaceOneAsync(x => x.Id == id, updatedSong);
+
+        public async Task RemoveAsync(uint id) =>
+            await _songs.DeleteOneAsync(x => x.Id == id);
 
     }
 }

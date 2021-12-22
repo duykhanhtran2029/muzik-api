@@ -69,7 +69,7 @@ namespace AudioFingerPrinting
             var result = new FingerPrinting_ResultDTO(stopwatch.ElapsedMilliseconds);
             foreach (var mSong in resultSong)
                 result.matchedSongs.Add(
-                    new MatchedSong(_songs.Find(s => s.ID == mSong.Item1).FirstOrDefault(), 
+                    new MatchedSong(_songs.Find(s => s.Id == mSong.Item1).FirstOrDefault(), 
                     mSong.Item2));
             return result;
         }

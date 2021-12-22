@@ -5,20 +5,9 @@ namespace AudioFingerPrinting.Database
 {
     public class Song
 	{
-		/// <summary>
-		/// Instance of a song
-		/// </summary>
-		/// <param name="id">song ID</param>
-		/// <param name="name">Name of the song</param>
-		public Song(uint id, string name)
-		{
-			ID = id;
-			Name = name;
-		}
-
 		[BsonId]
 		[BsonElement("_id")]
-		public uint ID { get; set; }
+		public uint Id { get; set; }
 
 
 
@@ -52,6 +41,11 @@ namespace AudioFingerPrinting.Database
 		[DataMember]
 		[BsonElement("Thumbnail")]
 		public string Thumbnail { get; set; }
+
+
+		[DataMember]
+		[BsonElement("IsDeleted")]
+		public bool IsDeleted { get; set; }
 
 	}
 }

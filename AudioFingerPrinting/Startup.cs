@@ -41,6 +41,7 @@ namespace AudioFingerPrinting
             this.AddServices(ref services);
 
             services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AudioFingerPrinting", Version = "v1" });
@@ -49,7 +50,6 @@ namespace AudioFingerPrinting
 
         public void AddServices(ref IServiceCollection services)
         {
-            services.AddSingleton<FingerprintsSvc>();
             services.AddSingleton<SongsSvc>();
         }
 
@@ -79,7 +79,7 @@ namespace AudioFingerPrinting
                 endpoints.MapControllers();
             });
 
-            recognizer = new Recogniser(settings);
+            //recognizer = new Recogniser(settings);
         }
     }
 }

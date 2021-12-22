@@ -197,7 +197,7 @@ namespace AudioFingerPrinting
 		/// Builds song value out of parts
 		/// </summary>
 		/// <param name="absAnchorTime">Absolute time of anchor</param>
-		/// <param name="id">ID of a song</param>
+		/// <param name="id">Id of a song</param>
 		/// <returns>Left to right: 32bits AbsAnchTime, 32 bits songID</returns>
 		public static ulong BuildSongValue(in uint absAnchorTime, uint id)
 		{
