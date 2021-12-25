@@ -2,18 +2,11 @@ using AudioFingerPrinting.Database;
 using AudioFingerPrinting.Servcies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AudioFingerPrinting
 {
@@ -31,14 +24,20 @@ namespace AudioFingerPrinting
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // requires using Microsoft.Extensions.Options
             services.Configure<DatabaseSettings>(
                 Configuration.GetSection(nameof(DatabaseSettings)));
 
             services.AddSingleton<IDatabaseSettings>(st =>
                 st.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
-            this.AddServices(ref services);
+            services.Configure<AzureStorageSettings>(
+                Configuration.GetSection(nameof(AzureStorageSettings)));
+
+            services.AddSingleton<IAzureStorageSettings>(st =>
+                st.GetRequiredService<IOptions<AzureStorageSettings>>().Value);
+
+            services.AddSingleton<SongsSvc>();
+            services.AddSingleton<BlobSvc>();
 
             services.AddControllers();
 
@@ -46,11 +45,6 @@ namespace AudioFingerPrinting
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AudioFingerPrinting", Version = "v1" });
             }); 
-        }
-
-        public void AddServices(ref IServiceCollection services)
-        {
-            services.AddSingleton<SongsSvc>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,7 +73,7 @@ namespace AudioFingerPrinting
                 endpoints.MapControllers();
             });
 
-            //recognizer = new Recogniser(settings);
+            recognizer = new Recogniser(settings);
         }
     }
 }

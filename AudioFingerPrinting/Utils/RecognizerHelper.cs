@@ -1,5 +1,6 @@
 ﻿using CoreLib.AudioFormats;
 using CoreLib.AudioProcessing;
+using CoreLib.AudioProcessing.Server;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,6 +13,51 @@ namespace AudioFingerPrinting
 {
 	public class RecognizerHelper
 	{
+		/// <summary>
+		/// <para>Audio processing.</para>
+		/// <para>WARNING: Song must be sampled at 48000Hz!</para>
+		/// </summary>
+		/// <param name="path">Location of .wav audio file</param>
+		public static List<TimeFrequencyPoint> Processing(byte[] input)
+		{
+			//Plan of audio processing
+			//STEREO -> MONO -> LOW PASS -> DOWNSAMPLE -> HAMMING -> FFT
+
+			#region STEREO
+
+			var audio = AudioReader.GetSound(input);
+
+			#endregion
+
+			#region MONO
+
+			if (audio.Channels == 2)  //MONO
+				AudioProcessor.StereoToMono(audio);
+
+			#endregion
+
+			#region Short to Double
+
+			double[] data = ShortArrayToDoubleArray(audio.Data);
+			#endregion
+
+			#region LOW PASS & DOWNSAMPLE
+
+			var downsampledData = AudioProcessor.DownSample(data, Constants.DownSampleCoef, audio.SampleRate); //LOWPASS + DOWNSAMPLE
+			data = null; //release memory
+			#endregion
+
+			#region HAMMING & FFT
+			//apply FFT at every 1024 samples
+			//get 512 bins 
+			//of frequencies 0 - 6 kHZ
+			//bin size of ~ 11,7 Hz
+
+			int bufferSize = Constants.WindowSize / Constants.DownSampleCoef; //default: 4096/4 = 1024
+			return CreateTimeFrequencyPoints(bufferSize, downsampledData, sensitivity: 1);
+			#endregion
+		}
+
 		/// <summary>
 		/// Applies Hamming window and then FFT at every <c>bufferSize</c> number of samples.
 		/// Filters out strongest bins and creates Time-frequency points that are ordered. Primarly by time, secondary by frequency.

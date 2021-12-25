@@ -24,13 +24,13 @@ namespace AudioFingerPrinting
 
             _fingerprints = database.GetCollection<Fingerprint>(settings.TFPsCollectionName);
             _songs = database.GetCollection<Song>(settings.SongsCollectionName);
-            LoadFingerprints();
+            //LoadFingerprints();
         }
 
         /// <summary>
         /// Number of processors
         /// </summary>
-        public const int PROCESSORS = 6;
+        public const int PROCESSORS = 8;
 
         /// <summary>
         /// Bits are stored as BE
@@ -51,6 +51,7 @@ namespace AudioFingerPrinting
         /// <param name="path">Location of .wav audio file</param>
 
         #region Recognizer
+
         /// <summary>
         /// Recognizing song from audio file
         /// <param name="input">wave audio file as bytes array</param>
@@ -62,7 +63,7 @@ namespace AudioFingerPrinting
             Stopwatch stopwatch = Stopwatch.StartNew();
             stopwatch.Start();
 
-            List<TimeFrequencyPoint> timeFrequencyPoints = Processing(input);
+            List<TimeFrequencyPoint> timeFrequencyPoints = RecognizerHelper.Processing(input);
             //find the best song in database
             IEnumerable<Tuple<uint, double>> resultSong = FindBestMatch(databases, timeFrequencyPoints);
             stopwatch.Stop();
@@ -72,51 +73,6 @@ namespace AudioFingerPrinting
                     new MatchedSong(_songs.Find(s => s.Id == mSong.Item1).FirstOrDefault(), 
                     mSong.Item2));
             return result;
-        }
-
-        /// <summary>
-        /// <para>Audio processing.</para>
-        /// <para>WARNING: Song must be sampled at 48000Hz!</para>
-        /// </summary>
-        /// <param name="path">Location of .wav audio file</param>
-        public List<TimeFrequencyPoint> Processing(byte[] input)
-        {
-            //Plan of audio processing
-            //STEREO -> MONO -> LOW PASS -> DOWNSAMPLE -> HAMMING -> FFT
-
-            #region STEREO
-
-            var audio = AudioReader.GetSound(input);
-
-            #endregion
-
-            #region MONO
-
-            if (audio.Channels == 2)  //MONO
-                AudioProcessor.StereoToMono(audio);
-
-            #endregion
-
-            #region Short to Double
-
-            double[] data = RecognizerHelper.ShortArrayToDoubleArray(audio.Data);
-            #endregion
-
-            #region LOW PASS & DOWNSAMPLE
-
-            var downsampledData = AudioProcessor.DownSample(data, Constants.DownSampleCoef, audio.SampleRate); //LOWPASS + DOWNSAMPLE
-            data = null; //release memory
-            #endregion
-
-            #region HAMMING & FFT
-            //apply FFT at every 1024 samples
-            //get 512 bins 
-            //of frequencies 0 - 6 kHZ
-            //bin size of ~ 11,7 Hz
-
-            int bufferSize = Constants.WindowSize / Constants.DownSampleCoef; //default: 4096/4 = 1024
-            return RecognizerHelper.CreateTimeFrequencyPoints(bufferSize, downsampledData, sensitivity: 1);
-            #endregion
         }
 
         /// <summary>

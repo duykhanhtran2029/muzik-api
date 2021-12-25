@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Linq;
 using AudioFingerPrinting.DTO;
+using System.Text.Json;
+using Newtonsoft.Json;
+using CoreLib.AudioProcessing.Server;
 
 namespace AudioFingerPrinting.Controllers
 {
@@ -20,17 +23,20 @@ namespace AudioFingerPrinting.Controllers
     public class SongsController : ControllerBase
     {
         private readonly SongsSvc _songsSvc;
-
-        public SongsController(SongsSvc songsSvc)
+        private readonly BlobSvc _blobStorageSvc;
+        private readonly IAzureStorageSettings _settings;
+        public SongsController(SongsSvc songsSvc, BlobSvc blobStorageSvc, IAzureStorageSettings settings)
         {
             _songsSvc = songsSvc;
+            _blobStorageSvc = blobStorageSvc;
+            _settings = settings;
         }
 
         [HttpGet]
         public async Task<List<Song>> Get() => await _songsSvc.GetAsync();
 
         [HttpGet("{songID}")]
-        public async Task<ActionResult<Song>> Get (uint songID)
+        public async Task<ActionResult<Song>> Get(uint songID)
         {
             var song = await _songsSvc.GetAsync(songID);
             if (song is null)
@@ -41,15 +47,34 @@ namespace AudioFingerPrinting.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(Song newSong)
         {
-            await _songsSvc.CreateAsync(newSong);
+            newSong.Id = _songsSvc.newId();
+            _songsSvc.CreateAsync(newSong);
+            
+            var fileName = newSong.Link.Replace($"{_settings.BaseURL}/{_settings.SongsContainer}/", "");
 
-            return CreatedAtAction(nameof(Get), new { id = newSong.Id }, newSong);
+            if(fileName.ToLower().EndsWith(".mp3"))
+            {
+                string path = await _blobStorageSvc.GetFileBlobAsync(_settings.SongsContainer, fileName);
+                MemoryStream stream = AudioReader.WavConverter(path);
+                _songsSvc.AddNewSong(stream.ToArray(), newSong.Id);
+                stream.Dispose();
+
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+            } else
+            {
+                //TODO : wav ?
+            }
+
+            return Ok(newSong);
         }
 
         [HttpPut("{songID}")]
-        public async Task<IActionResult> Update(uint songID, Song updatedSong)
+        public async Task<IActionResult> Update(Song updatedSong)
         {
-            var song = await _songsSvc.GetAsync(songID);
+            var song = await _songsSvc.GetAsync(updatedSong.Id);
 
             if (song is null)
             {
@@ -58,9 +83,16 @@ namespace AudioFingerPrinting.Controllers
 
             updatedSong.Id = song.Id;
 
-            await _songsSvc.UpdateAsync(songID, updatedSong);
+            try
+            {
+                await _songsSvc.UpdateAsync(updatedSong.Id, updatedSong);
+            }
+            catch
+            {
+                return BadRequest();
+            }
 
-            return NoContent();
+            return Ok(updatedSong);
         }
 
         [HttpDelete("{songID}")]
@@ -73,19 +105,26 @@ namespace AudioFingerPrinting.Controllers
                 return NotFound();
             }
 
-            await _songsSvc.RemoveAsync(song.Id);
+            try
+            {
+                await _songsSvc.RemoveAsync(song.Id);
+            }
+            catch
+            {
+                return BadRequest();
+            }
 
-            return NoContent();
+            return Ok(song);
         }
 
-        [HttpPost("FingerPrinting")]
+        [HttpPost("FingerPrinting"), DisableRequestSizeLimit]
         public IActionResult FingerPrinting()
         {
             var file = new MemoryStream();
             Request.Form.Files[0].CopyTo(file);
             byte[] data = file.ToArray();
             FingerPrinting_ResultDTO result = Startup.recognizer.Recognizing(data);
-            var jsonResult = Newtonsoft.Json.JsonConvert.SerializeObject(result);
+            var jsonResult = JsonConvert.SerializeObject(result);
             return this.Ok(jsonResult);
         }
     }

@@ -92,22 +92,23 @@ namespace CoreLib.AudioProcessing.Server
 		/// </summary>
 		/// <param name="path"></param>
 		/// <returns></returns>
-		public static string WavConverter(string path)
+		public static MemoryStream WavConverter(string path)
 		{
 			int outRate = 48000;
 			int bitsPerSample = 16;
 			int channel = 1;
 
-			//redirect to MP3 Folder
-			var reader = new Mp3FileReader(path.Replace("Songs/Wav/", "Songs/Mp3/"));
+			var reader = new Mp3FileReader(path);
 
 			//converting
 			var outFormat = new WaveFormat(outRate, bitsPerSample, channel);
 			var resampler = new MediaFoundationResampler(reader, outFormat);
-			path = path.Replace(".mp3", ".wav");
-			WaveFileWriter.CreateWaveFile($"{path}", resampler);
 
-			return path;
+			var stream = new MemoryStream();
+
+			WaveFileWriter.WriteWavFileToStream(stream, resampler);
+			reader.Dispose();
+			return stream;
 		}
 	}
 }
