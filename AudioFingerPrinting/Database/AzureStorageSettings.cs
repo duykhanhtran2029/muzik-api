@@ -11,6 +11,7 @@ namespace AudioFingerPrinting.Database
         public string BaseURL { get; set; }
         public string SongsContainer { get; set; }
         public string ImagesContainer { get; set; }
+        public string RecordsContainer { get; set; }
     }
     public interface IAzureStorageSettings
     {
@@ -18,5 +19,6 @@ namespace AudioFingerPrinting.Database
         string BaseURL { get; set; }
         string SongsContainer { get; set; }
         string ImagesContainer { get; set; }
+        string RecordsContainer { get; set; }
     }
 }

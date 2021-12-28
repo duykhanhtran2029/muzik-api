@@ -26,12 +26,6 @@ namespace CoreLib.AudioProcessing.Server
 
 			IAudioFormat Sound = new WavFormat();
 
-			//Check if the beginning starts with RIFF (currently only supported format of wav files)
-			if (!Sound.IsCorrectFormat(new[] { data[0], data[1], data[2], data[3] }))
-			{
-				throw new ArgumentException($"File formatted wrongly, not a 'wav' format.");
-			}
-
 			Sound.Channels = Converter.BytesToUInt(new byte[] { data[22], data[23] });
 			Sound.SampleRate = Converter.BytesToUInt(new byte[] { data[24], data[25], data[26], data[27] });
 			Sound.ByteRate = Converter.BytesToInt(new byte[] { data[28], data[29], data[30], data[31] });
@@ -98,7 +92,16 @@ namespace CoreLib.AudioProcessing.Server
 			int bitsPerSample = 16;
 			int channel = 1;
 
-			var reader = new Mp3FileReader(path);
+			dynamic reader;
+			if(path.ToLower().EndsWith(".mp3"))
+            {
+				reader = new Mp3FileReader(path);
+			}
+			else
+            {
+				reader = new WaveFileReader(path);
+            }
+
 
 			//converting
 			var outFormat = new WaveFormat(outRate, bitsPerSample, channel);

@@ -15,6 +15,9 @@ using AudioFingerPrinting.DTO;
 using System.Text.Json;
 using Newtonsoft.Json;
 using CoreLib.AudioProcessing.Server;
+using CoreLib.AudioFormats;
+using NAudio.Wave;
+using CoreLib.Tools;
 
 namespace AudioFingerPrinting.Controllers
 {
@@ -51,21 +54,14 @@ namespace AudioFingerPrinting.Controllers
             _songsSvc.CreateAsync(newSong);
             
             var fileName = newSong.Link.Replace($"{_settings.BaseURL}/{_settings.SongsContainer}/", "");
+            string path = await _blobStorageSvc.GetFileBlobAsync(_settings.SongsContainer, fileName);
+            MemoryStream stream = AudioReader.WavConverter(path);
+            _songsSvc.AddNewSong(stream.ToArray(), newSong.Id);
+            stream.Dispose();
 
-            if(fileName.ToLower().EndsWith(".mp3"))
+            if (System.IO.File.Exists(path))
             {
-                string path = await _blobStorageSvc.GetFileBlobAsync(_settings.SongsContainer, fileName);
-                MemoryStream stream = AudioReader.WavConverter(path);
-                _songsSvc.AddNewSong(stream.ToArray(), newSong.Id);
-                stream.Dispose();
-
-                if (System.IO.File.Exists(path))
-                {
-                    System.IO.File.Delete(path);
-                }
-            } else
-            {
-                //TODO : wav ?
+                System.IO.File.Delete(path);
             }
 
             return Ok(newSong);
