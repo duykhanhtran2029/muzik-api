@@ -113,7 +113,7 @@ namespace AudioFingerPrinting.Controllers
             return Ok(song);
         }
 
-        [HttpPost("FingerPrinting"), DisableRequestSizeLimit]
+      /*  [HttpPost("FingerPrinting"), DisableRequestSizeLimit]
         public IActionResult FingerPrinting()
         {
             var file = new MemoryStream();
@@ -121,6 +121,27 @@ namespace AudioFingerPrinting.Controllers
             byte[] data = file.ToArray();
             FingerPrinting_ResultDTO result = Startup.recognizer.Recognizing(data);
             var jsonResult = JsonConvert.SerializeObject(result);
+            return this.Ok(jsonResult);
+        }*/
+
+
+        [HttpPost("Records")]
+        public async Task<IActionResult> ProcessRecord(string fileName)
+        {
+
+            string path = await _blobStorageSvc.GetFileBlobAsync(_settings.RecordsContainer, fileName);
+            MemoryStream stream = AudioReader.WavConverter(path);
+            byte[] data = stream.ToArray();
+            FingerPrinting_ResultDTO result = Startup.recognizer.Recognizing(data);
+            var jsonResult = JsonConvert.SerializeObject(result);
+
+
+            stream.Dispose();
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+
             return this.Ok(jsonResult);
         }
     }
