@@ -125,7 +125,7 @@ namespace AudioFingerPrinting.Controllers
         }*/
 
 
-        [HttpPost("Records")]
+        [HttpPost("FingerPrinting")]
         public async Task<IActionResult> ProcessRecord(string fileName)
         {
 
