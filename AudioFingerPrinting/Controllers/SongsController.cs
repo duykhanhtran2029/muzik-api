@@ -126,10 +126,10 @@ namespace AudioFingerPrinting.Controllers
 
 
         [HttpPost("FingerPrinting")]
-        public async Task<IActionResult> ProcessRecord(string fileName)
+        public async Task<IActionResult> ProcessRecord([FromBody] Record_RequestDTO request)
         {
 
-            string path = await _blobStorageSvc.GetFileBlobAsync(_settings.RecordsContainer, fileName);
+            string path = await _blobStorageSvc.GetFileBlobAsync(_settings.RecordsContainer, request.FileName);
             MemoryStream stream = AudioReader.WavConverter(path);
             byte[] data = stream.ToArray();
             FingerPrinting_ResultDTO result = Startup.recognizer.Recognizing(data);
