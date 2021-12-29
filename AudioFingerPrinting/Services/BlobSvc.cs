@@ -44,6 +44,13 @@ namespace AudioFingerPrinting.Servcies
             return path;
         }
 
+        public async Task DeleteFileBlobAsync(string blobContainerName, string fileName)
+        {
+            var containerClient = GetContainerClient(blobContainerName);
+            var blobClient = containerClient.GetBlobClient(fileName);
+            await blobClient.DeleteAsync();
+        }
+
         private BlobContainerClient GetContainerClient(string blobContainerName)
         {
             var containerClient = _blobServiceClient.GetBlobContainerClient(blobContainerName);

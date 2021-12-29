@@ -73,7 +73,7 @@ namespace AudioFingerPrinting
                 endpoints.MapControllers();
             });
 
-            //recognizer = new Recogniser(settings);
+           //recognizer = new Recogniser(settings);
         }
     }
 }

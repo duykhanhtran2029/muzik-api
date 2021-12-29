@@ -24,7 +24,7 @@ namespace AudioFingerPrinting
 
             _fingerprints = database.GetCollection<Fingerprint>(settings.TFPsCollectionName);
             _songs = database.GetCollection<Song>(settings.SongsCollectionName);
-            //LoadFingerprints();
+            LoadFingerprints();
         }
 
         /// <summary>
@@ -344,7 +344,7 @@ namespace AudioFingerPrinting
 		public void LoadFingerprints()
         {
             databases = new Dictionary<uint, List<ulong>>[PROCESSORS];
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < PROCESSORS; i++)
                 databases[i] = new Dictionary<uint, List<ulong>>();
             List<Thread> threads = new List<Thread>();
           
@@ -357,7 +357,7 @@ namespace AudioFingerPrinting
                                         .Select(g => g.Select(x => x.s).ToList())
                                         .ToList();
                 // Start threads
-                for (int i = 0; i < 6; i++)
+                for (int i = 0; i < PROCESSORS; i++)
                 {
                     int tmp = i; // Copy value for closure
                     Thread t = new Thread(() => {
