@@ -11,6 +11,7 @@ namespace AudioFingerPrinting.Database
         public string TFPsCollectionName { get; set; }
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }
+        public string LocalConnection { get; set; }
     }
 
     public interface IDatabaseSettings
@@ -19,5 +20,6 @@ namespace AudioFingerPrinting.Database
         string TFPsCollectionName { get; set; }
         string ConnectionString { get; set; }
         string DatabaseName { get; set; }
+        string LocalConnection { get; set; }
     }
 }
