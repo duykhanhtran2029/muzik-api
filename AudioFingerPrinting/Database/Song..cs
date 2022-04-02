@@ -2,13 +2,20 @@
 using System.Runtime.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace AudioFingerPrinting.Database
 {
     public class Song
 	{
+		
 		[BsonId]
-		[BsonElement("_id")]
+		[DataMember]
+		public MongoDB.Bson.ObjectId _id { get; set; }
+
+
+		[DataMember]
+		[BsonElement("ID")]
 		[JsonProperty("id")]
 		public uint Id { get; set; }
 
@@ -28,16 +35,6 @@ namespace AudioFingerPrinting.Database
 		public string Artist { get; set; }
 
 		[DataMember]
-		[BsonElement("LinkZingMp3")]
-		[JsonProperty("linkZingMp3")]
-		public string LinkZingMp3 { get; set; }
-
-		[DataMember]
-		[BsonElement("LinkMV")]
-		[JsonProperty("linkMV")]
-		public string LinkMV { get; set; }
-
-		[DataMember]
 		[BsonElement("Link")]
 		[JsonProperty("link")]
 		public string Link { get; set; }
@@ -54,5 +51,42 @@ namespace AudioFingerPrinting.Database
 		[JsonProperty("isDeleted")]
 		public bool IsDeleted { get; set; }
 
+		[DataMember]
+		[BsonElement("LinkLyric")]
+		[JsonProperty("linkLyric")]
+		public string LinkLyric { get; set; }
+
+		[DataMember]
+		[BsonElement("LinkBeat")]
+		[JsonProperty("linkBeat")]
+		public string LinkBeat { get; set; }
+
+
+		[DataMember]
+		[BsonElement("Like")]
+		[JsonProperty("like")]
+		public int Like { get; set; }
+
+		[DataMember]
+		[BsonElement("Duration")]
+		[JsonProperty("like")]
+		public int Duration { get; set; }
+
+		[DataMember]
+		[BsonElement("Genres")]
+		[JsonProperty("genres")]
+		private List<Genre> Genres;
+
+		[DataMember]
+		[BsonElement("Type")]
+		[JsonProperty("type")]
+		public int TypeID { get; set; }
+
+
+
+		[DataMember]
+		[BsonElement("ReleaseDate")]
+		[JsonProperty("releaseDate")]
+		public string ReleaseDate { get; set; }
 	}
 }
