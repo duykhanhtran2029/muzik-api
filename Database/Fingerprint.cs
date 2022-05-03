@@ -1,12 +1,8 @@
-﻿using CoreLib.AudioFormats;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using MongoDB.Bson;
-using MongoDB.Driver;
 using System.Runtime.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
-namespace AudioFingerPrinting.Database
+namespace Database
 {
     public class Fingerprint
     {

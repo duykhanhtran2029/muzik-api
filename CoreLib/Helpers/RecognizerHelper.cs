@@ -1,17 +1,13 @@
-﻿using CoreLib.AudioFormats;
-using CoreLib.AudioProcessing;
+﻿using CoreLib.AudioProcessing;
 using CoreLib.AudioProcessing.Server;
+using Database;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
 
 
-namespace AudioFingerPrinting
+namespace CoreLib
 {
-	public class RecognizerHelper
+    public class RecognizerHelper
 	{
 		/// <summary>
 		/// <para>Audio processing.</para>
@@ -252,7 +248,7 @@ namespace AudioFingerPrinting
 			res += id;
 			return res;
 		}
-		
+
 		#endregion
 	}
 }

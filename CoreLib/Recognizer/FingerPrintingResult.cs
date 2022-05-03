@@ -1,10 +1,7 @@
-﻿using AudioFingerPrinting.Database;
-using System;
+﻿using Database;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace AudioFingerPrinting.DTO
+namespace CoreLib
 {
     public class MatchedSong
     {
@@ -16,9 +13,9 @@ namespace AudioFingerPrinting.DTO
         public Song song;
         public double score;
     }
-    public class FingerPrinting_ResultDTO
+    public class FingerPrintingResult
     {
-        public FingerPrinting_ResultDTO(long time)
+        public FingerPrintingResult(long time)
         {
             this.time = time;
             this.matchedSongs = new List<MatchedSong>();

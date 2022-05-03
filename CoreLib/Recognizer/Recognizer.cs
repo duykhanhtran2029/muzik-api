@@ -1,23 +1,18 @@
-﻿using AudioFingerPrinting.Database;
-using AudioFingerPrinting.DTO;
-using CoreLib.AudioFormats;
-using CoreLib.AudioProcessing;
-using CoreLib.AudioProcessing.Server;
+﻿using Database;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 
-namespace AudioFingerPrinting
+namespace CoreLib
 {
-    public partial class Recogniser
+    public partial class Recognizer
     {
         public readonly IMongoCollection<Fingerprint> _fingerprints;
         public readonly IMongoCollection<Song> _songs;
-        public Recogniser(IDatabaseSettings settings)
+        public Recognizer(IDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
@@ -57,7 +52,7 @@ namespace AudioFingerPrinting
         /// <param name="input">wave audio file as bytes array</param>
         /// </summary>
         /// <returns></returns>
-        public FingerPrinting_ResultDTO Recognizing(byte[] input)
+        public FingerPrintingResult Recognizing(byte[] input)
         {
             //measure time of song searching
             Stopwatch stopwatch = Stopwatch.StartNew();
@@ -67,7 +62,7 @@ namespace AudioFingerPrinting
             //find the best song in database
             IEnumerable<Tuple<uint, double>> resultSong = FindBestMatch(databases, timeFrequencyPoints);
             stopwatch.Stop();
-            var result = new FingerPrinting_ResultDTO(stopwatch.ElapsedMilliseconds);
+            var result = new FingerPrintingResult(stopwatch.ElapsedMilliseconds);
             foreach (var mSong in resultSong)
                 result.matchedSongs.Add(
                     new MatchedSong(_songs.Find(s => s.Id == mSong.Item1).FirstOrDefault(), 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CoreLib.AudioFormats
+namespace Database
 {
     public class TimeFrequencyPoint
     {

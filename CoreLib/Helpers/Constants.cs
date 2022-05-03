@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AudioFingerPrinting
+﻿namespace CoreLib
 {
 	static class Constants
 	{
@@ -30,10 +26,6 @@ namespace AudioFingerPrinting
 		/// Obligated portion of time coherent notes
 		/// </summary>
 		public const double CoherentNotesCoef = 0.4;
-		/// <summary>
-		/// Default path to mongo server
-		/// </summary>
-		public const string MongoPath = "mongodb://localhost:27017";
 
 	}
 

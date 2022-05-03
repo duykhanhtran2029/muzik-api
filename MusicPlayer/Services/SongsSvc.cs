@@ -1,12 +1,13 @@
-﻿using AudioFingerPrinting.Database;
+﻿using Database;
 using CoreLib.AudioFormats;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using MongoDB.Driver.Linq;
 using System.Threading.Tasks;
+using CoreLib;
 
-namespace AudioFingerPrinting.Servcies
+namespace MusicPlayer.Servcies
 {
     public class SongsSvc
     {
