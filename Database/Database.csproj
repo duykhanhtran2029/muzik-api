@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Helper\Data\" />
+    <Folder Include="MusicPlayer\Data\" />
   </ItemGroup>
 
 </Project>
