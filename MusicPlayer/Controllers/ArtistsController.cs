@@ -11,48 +11,48 @@ namespace MusicPlayer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SongsController : ControllerBase
+    public class ArtistsController : ControllerBase
     {
         private readonly MusicPlayerDbContext _context;
 
-        public SongsController(MusicPlayerDbContext context)
+        public ArtistsController(MusicPlayerDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Songs
+        // GET: api/Artists
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Song>>> GetSong()
+        public async Task<ActionResult<IEnumerable<Artist>>> GetArtist()
         {
-            return await _context.Song.ToListAsync();
+            return await _context.Artist.ToListAsync();
         }
 
-        // GET: api/Songs/5
+        // GET: api/Artists/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Song>> GetSong(string id)
+        public async Task<ActionResult<Artist>> GetArtist(string id)
         {
-            var song = await _context.Song.FindAsync(id);
+            var artist = await _context.Artist.FindAsync(id);
 
-            if (song == null)
+            if (artist == null)
             {
                 return NotFound();
             }
 
-            return song;
+            return artist;
         }
 
-        // PUT: api/Songs/5
+        // PUT: api/Artists/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSong(string id, Song song)
+        public async Task<IActionResult> PutArtist(string id, Artist artist)
         {
-            if (id != song.SongId)
+            if (id != artist.ArtistId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(song).State = EntityState.Modified;
+            _context.Entry(artist).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace MusicPlayer.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!SongExists(id))
+                if (!ArtistExists(id))
                 {
                     return NotFound();
                 }
@@ -73,20 +73,20 @@ namespace MusicPlayer.Controllers
             return NoContent();
         }
 
-        // POST: api/Songs
+        // POST: api/Artists
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Song>> PostSong(Song song)
+        public async Task<ActionResult<Artist>> PostArtist(Artist artist)
         {
-            _context.Song.Add(song);
+            _context.Artist.Add(artist);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (SongExists(song.SongId))
+                if (ArtistExists(artist.ArtistId))
                 {
                     return Conflict();
                 }
@@ -96,28 +96,28 @@ namespace MusicPlayer.Controllers
                 }
             }
 
-            return CreatedAtAction("GetSong", new { id = song.SongId }, song);
+            return CreatedAtAction("GetArtist", new { id = artist.ArtistId }, artist);
         }
 
-        // DELETE: api/Songs/5
+        // DELETE: api/Artists/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Song>> DeleteSong(string id)
+        public async Task<ActionResult<Artist>> DeleteArtist(string id)
         {
-            var song = await _context.Song.FindAsync(id);
-            if (song == null)
+            var artist = await _context.Artist.FindAsync(id);
+            if (artist == null)
             {
                 return NotFound();
             }
 
-            _context.Song.Remove(song);
+            _context.Artist.Remove(artist);
             await _context.SaveChangesAsync();
 
-            return song;
+            return artist;
         }
 
-        private bool SongExists(string id)
+        private bool ArtistExists(string id)
         {
-            return _context.Song.Any(e => e.SongId == id);
+            return _context.Artist.Any(e => e.ArtistId == id);
         }
     }
 }

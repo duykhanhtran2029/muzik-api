@@ -11,48 +11,48 @@ namespace MusicPlayer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SongsController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly MusicPlayerDbContext _context;
 
-        public SongsController(MusicPlayerDbContext context)
+        public UsersController(MusicPlayerDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Songs
+        // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Song>>> GetSong()
+        public async Task<ActionResult<IEnumerable<User>>> GetUser()
         {
-            return await _context.Song.ToListAsync();
+            return await _context.User.ToListAsync();
         }
 
-        // GET: api/Songs/5
+        // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Song>> GetSong(string id)
+        public async Task<ActionResult<User>> GetUser(string id)
         {
-            var song = await _context.Song.FindAsync(id);
+            var user = await _context.User.FindAsync(id);
 
-            if (song == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return song;
+            return user;
         }
 
-        // PUT: api/Songs/5
+        // PUT: api/Users/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSong(string id, Song song)
+        public async Task<IActionResult> PutUser(string id, User user)
         {
-            if (id != song.SongId)
+            if (id != user.UserId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(song).State = EntityState.Modified;
+            _context.Entry(user).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace MusicPlayer.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!SongExists(id))
+                if (!UserExists(id))
                 {
                     return NotFound();
                 }
@@ -73,20 +73,20 @@ namespace MusicPlayer.Controllers
             return NoContent();
         }
 
-        // POST: api/Songs
+        // POST: api/Users
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Song>> PostSong(Song song)
+        public async Task<ActionResult<User>> PostUser(User user)
         {
-            _context.Song.Add(song);
+            _context.User.Add(user);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (SongExists(song.SongId))
+                if (UserExists(user.UserId))
                 {
                     return Conflict();
                 }
@@ -96,28 +96,28 @@ namespace MusicPlayer.Controllers
                 }
             }
 
-            return CreatedAtAction("GetSong", new { id = song.SongId }, song);
+            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
         }
 
-        // DELETE: api/Songs/5
+        // DELETE: api/Users/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Song>> DeleteSong(string id)
+        public async Task<ActionResult<User>> DeleteUser(string id)
         {
-            var song = await _context.Song.FindAsync(id);
-            if (song == null)
+            var user = await _context.User.FindAsync(id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            _context.Song.Remove(song);
+            _context.User.Remove(user);
             await _context.SaveChangesAsync();
 
-            return song;
+            return user;
         }
 
-        private bool SongExists(string id)
+        private bool UserExists(string id)
         {
-            return _context.Song.Any(e => e.SongId == id);
+            return _context.User.Any(e => e.UserId == id);
         }
     }
 }

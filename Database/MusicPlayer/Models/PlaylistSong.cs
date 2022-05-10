@@ -5,11 +5,14 @@ using System.Collections.Generic;
 // If you have enabled NRTs for your project, then un-comment the following line:
 // #nullable disable
 
-namespace Database.Models
+namespace Database.MusicPlayer.Models
 {
     public partial class PlaylistSong
     {
         public string PlaylistId { get; set; }
         public string SongId { get; set; }
+
+        public virtual Playlist Playlist { get; set; }
+        public virtual Song Song { get; set; }
     }
 }

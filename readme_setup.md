@@ -22,4 +22,4 @@ _// run script to initialize database_
 _// change directory to your source repo_
 `> {project_root_directory}\Database`
 _// generate entity classes (scaffold db context)_
-`> dotnet ef dbcontext scaffold "Server=(localdb)\MSSQLLocalDB;Database=MUSICPLAYER;Trusted_Connection=True" Microsoft.EntityFrameworkCore.SqlServer --context "MusicPlayerDbContext" --project "Database.csproj" --force --output-dir "MusicPlayer\Models"`
+`> Scaffold-DbContext "Server=(localdb)\MSSQLLocalDB;Database=MUSICPLAYER;Trusted_Connection=True" Microsoft.EntityFrameworkCore.SqlServer -Context MusicPlayerDbContext -OutputDir MusicPlayer/Models`

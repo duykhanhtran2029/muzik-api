@@ -25,11 +25,11 @@ namespace AudioFingerPrinting
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<DatabaseSettings>(
-                Configuration.GetSection(nameof(DatabaseSettings)));
+            services.Configure<MongoDatabaseSettings>(
+                Configuration.GetSection(nameof(MongoDatabaseSettings)));
 
-            services.AddSingleton<IDatabaseSettings>(st =>
-                st.GetRequiredService<IOptions<DatabaseSettings>>().Value);
+            services.AddSingleton<IMongoDatabaseSettings>(st =>
+                st.GetRequiredService<IOptions<MongoDatabaseSettings>>().Value);
 
             services.Configure<AzureStorageSettings>(
                 Configuration.GetSection(nameof(AzureStorageSettings)));
@@ -48,7 +48,7 @@ namespace AudioFingerPrinting
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDatabaseSettings settings)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMongoDatabaseSettings settings)
         {
             if (env.IsDevelopment())
             {

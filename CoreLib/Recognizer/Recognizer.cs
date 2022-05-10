@@ -1,4 +1,5 @@
 ﻿using Database;
+using Database.AudioFingerPrinting;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -11,14 +12,14 @@ namespace CoreLib
     public partial class Recognizer
     {
         public readonly IMongoCollection<Fingerprint> _fingerprints;
-        public readonly IMongoCollection<Song> _songs;
-        public Recognizer(IDatabaseSettings settings)
+        public readonly IMongoCollection<RecognizableSong> _songs;
+        public Recognizer(IMongoDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
             _fingerprints = database.GetCollection<Fingerprint>(settings.TFPsCollectionName);
-            _songs = database.GetCollection<Song>(settings.SongsCollectionName);
+            _songs = database.GetCollection<RecognizableSong>(settings.SongsCollectionName);
             LoadFingerprints();
         }
 

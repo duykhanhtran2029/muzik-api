@@ -6,22 +6,19 @@ using Microsoft.EntityFrameworkCore.Metadata;
 // If you have enabled NRTs for your project, then un-comment the following line:
 // #nullable disable
 
-namespace Database.Models
+namespace Database.MusicPlayer.Models
 {
-    public partial class MUSICPLAYERContext : DbContext
+    public partial class MusicPlayerDbContext : DbContext
     {
-        public MUSICPLAYERContext()
+        public MusicPlayerDbContext()
         {
         }
 
-        public MUSICPLAYERContext(DbContextOptions<MUSICPLAYERContext> options)
+        public MusicPlayerDbContext(DbContextOptions<MusicPlayerDbContext> options)
             : base(options)
         {
         }
 
-        public virtual DbSet<Album> Album { get; set; }
-        public virtual DbSet<AlbumArtist> AlbumArtist { get; set; }
-        public virtual DbSet<AlbumSong> AlbumSong { get; set; }
         public virtual DbSet<Artist> Artist { get; set; }
         public virtual DbSet<ArtistSong> ArtistSong { get; set; }
         public virtual DbSet<Genre> Genre { get; set; }
@@ -32,64 +29,8 @@ namespace Database.Models
         public virtual DbSet<Song> Song { get; set; }
         public virtual DbSet<User> User { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=MUSICPLAYER;Trusted_Connection=True;");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Album>(entity =>
-            {
-                entity.Property(e => e.AlbumId)
-                    .HasColumnName("AlbumID")
-                    .HasMaxLength(8)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.AlbumName).IsRequired();
-
-                entity.Property(e => e.IsDeleted).HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.ThumbnailL).IsUnicode(false);
-
-                entity.Property(e => e.ThumbnailM).IsUnicode(false);
-
-                entity.Property(e => e.ThumbnailS).IsUnicode(false);
-            });
-
-            modelBuilder.Entity<AlbumArtist>(entity =>
-            {
-                entity.HasKey(e => new { e.AlbumId, e.ArtistId });
-
-                entity.Property(e => e.AlbumId)
-                    .HasColumnName("AlbumID")
-                    .HasMaxLength(8)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ArtistId)
-                    .HasColumnName("ArtistID")
-                    .HasMaxLength(8)
-                    .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<AlbumSong>(entity =>
-            {
-                entity.HasKey(e => new { e.AlbumId, e.SongId });
-
-                entity.Property(e => e.AlbumId)
-                    .HasColumnName("AlbumID")
-                    .HasMaxLength(8)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.SongId)
-                    .HasColumnName("SongID")
-                    .HasMaxLength(8)
-                    .IsUnicode(false);
-            });
-
             modelBuilder.Entity<Artist>(entity =>
             {
                 entity.Property(e => e.ArtistId)
@@ -121,6 +62,18 @@ namespace Database.Models
                     .HasColumnName("SongID")
                     .HasMaxLength(8)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.Artist)
+                    .WithMany(p => p.ArtistSong)
+                    .HasForeignKey(d => d.ArtistId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ArtistSon__Artis__4AB81AF0");
+
+                entity.HasOne(d => d.Song)
+                    .WithMany(p => p.ArtistSong)
+                    .HasForeignKey(d => d.SongId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ArtistSon__SongI__4BAC3F29");
             });
 
             modelBuilder.Entity<Genre>(entity =>
@@ -148,11 +101,24 @@ namespace Database.Models
                     .HasColumnName("SongID")
                     .HasMaxLength(8)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.Genre)
+                    .WithMany(p => p.GenreSong)
+                    .HasForeignKey(d => d.GenreId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__GenreSong__Genre__4CA06362");
+
+                entity.HasOne(d => d.Song)
+                    .WithMany(p => p.GenreSong)
+                    .HasForeignKey(d => d.SongId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__GenreSong__SongI__4D94879B");
             });
 
             modelBuilder.Entity<Like>(entity =>
             {
-                entity.HasKey(e => new { e.UserId, e.SongId });
+                entity.HasKey(e => new { e.UserId, e.SongId })
+                    .HasName("PK_UserSong");
 
                 entity.Property(e => e.UserId)
                     .HasColumnName("UserID")
@@ -163,6 +129,18 @@ namespace Database.Models
                     .HasColumnName("SongID")
                     .HasMaxLength(8)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.Song)
+                    .WithMany(p => p.Like)
+                    .HasForeignKey(d => d.SongId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Like__SongID__4E88ABD4");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Like)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Like__UserID__4F7CD00D");
             });
 
             modelBuilder.Entity<Playlist>(entity =>
@@ -181,12 +159,6 @@ namespace Database.Models
                     .HasColumnName("UserID")
                     .HasMaxLength(8)
                     .IsUnicode(false);
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Playlist)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Playlist__UserID__534D60F1");
             });
 
             modelBuilder.Entity<PlaylistSong>(entity =>
@@ -202,6 +174,18 @@ namespace Database.Models
                     .HasColumnName("SongID")
                     .HasMaxLength(8)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.Playlist)
+                    .WithMany(p => p.PlaylistSong)
+                    .HasForeignKey(d => d.PlaylistId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__PlaylistS__Playl__5070F446");
+
+                entity.HasOne(d => d.Song)
+                    .WithMany(p => p.PlaylistSong)
+                    .HasForeignKey(d => d.SongId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__PlaylistS__SongI__5165187F");
             });
 
             modelBuilder.Entity<Song>(entity =>
@@ -211,21 +195,13 @@ namespace Database.Models
                     .HasMaxLength(8)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Downloads).HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.Duration).HasDefaultValueSql("((0))");
-
                 entity.Property(e => e.IsDeleted).HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.Likes).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.Link).IsUnicode(false);
 
                 entity.Property(e => e.LinkBeat).IsUnicode(false);
 
                 entity.Property(e => e.LinkLyric).IsUnicode(false);
-
-                entity.Property(e => e.Listens).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.ReleaseDate).HasColumnType("smalldatetime");
 
@@ -236,8 +212,6 @@ namespace Database.Models
                 entity.Property(e => e.ThumbnailM).IsUnicode(false);
 
                 entity.Property(e => e.ThumbnailS).IsUnicode(false);
-
-                entity.Property(e => e.Type).HasDefaultValueSql("((0))");
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -267,8 +241,9 @@ namespace Database.Models
                     .IsRequired()
                     .IsUnicode(false);
 
-                entity.Property(e => e.Userame)
+                entity.Property(e => e.Username)
                     .IsRequired()
+                    .HasMaxLength(100)
                     .IsUnicode(false);
             });
 

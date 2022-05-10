@@ -7,7 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using CoreLib;
+using Database.MusicPlayer.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace MusicPlayer
 {
@@ -23,21 +24,14 @@ namespace MusicPlayer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<DatabaseSettings>(
-                Configuration.GetSection(nameof(DatabaseSettings)));
-
-            services.AddSingleton<IDatabaseSettings>(st =>
-                st.GetRequiredService<IOptions<DatabaseSettings>>().Value);
-
             services.Configure<AzureStorageSettings>(
                 Configuration.GetSection(nameof(AzureStorageSettings)));
 
             services.AddSingleton<IAzureStorageSettings>(st =>
                 st.GetRequiredService<IOptions<AzureStorageSettings>>().Value);
 
-            services.AddSingleton<SongsSvc>();
             services.AddSingleton<BlobSvc>();
-
+            services.AddDbContext<MusicPlayerDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("MusicPlayerContext")));
             services.AddControllers();
 
             services.AddSwaggerGen(c =>
@@ -47,7 +41,7 @@ namespace MusicPlayer
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDatabaseSettings settings)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {

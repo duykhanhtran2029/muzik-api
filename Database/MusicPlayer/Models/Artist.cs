@@ -5,15 +5,22 @@ using System.Collections.Generic;
 // If you have enabled NRTs for your project, then un-comment the following line:
 // #nullable disable
 
-namespace Database.Models
+namespace Database.MusicPlayer.Models
 {
     public partial class Artist
     {
+        public Artist()
+        {
+            ArtistSong = new HashSet<ArtistSong>();
+        }
+
         public string ArtistId { get; set; }
         public string ArtistName { get; set; }
         public string ThumbnailS { get; set; }
         public string ThumbnailM { get; set; }
         public string ThumbnailL { get; set; }
         public bool? IsDeleted { get; set; }
+
+        public virtual ICollection<ArtistSong> ArtistSong { get; set; }
     }
 }

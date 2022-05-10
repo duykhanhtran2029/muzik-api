@@ -2,7 +2,7 @@
 using MongoDB.Bson;
 using System.Runtime.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
-namespace Database
+namespace Database.AudioFingerPrinting
 {
     public class Fingerprint
     {

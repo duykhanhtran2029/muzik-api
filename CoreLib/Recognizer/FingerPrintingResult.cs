@@ -1,16 +1,16 @@
-﻿using Database;
+﻿using Database.AudioFingerPrinting;
 using System.Collections.Generic;
 
 namespace CoreLib
 {
     public class MatchedSong
     {
-        public MatchedSong(Song song, double score)
+        public MatchedSong(RecognizableSong song, double score)
         {
             this.song = song;
             this.score = score;
         }
-        public Song song;
+        public RecognizableSong song;
         public double score;
     }
     public class FingerPrintingResult

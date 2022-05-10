@@ -5,10 +5,18 @@ using System.Collections.Generic;
 // If you have enabled NRTs for your project, then un-comment the following line:
 // #nullable disable
 
-namespace Database.Models
+namespace Database.MusicPlayer.Models
 {
     public partial class Song
     {
+        public Song()
+        {
+            ArtistSong = new HashSet<ArtistSong>();
+            GenreSong = new HashSet<GenreSong>();
+            Like = new HashSet<Like>();
+            PlaylistSong = new HashSet<PlaylistSong>();
+        }
+
         public string SongId { get; set; }
         public string SongName { get; set; }
         public string ThumbnailS { get; set; }
@@ -18,11 +26,16 @@ namespace Database.Models
         public string LinkBeat { get; set; }
         public string LinkLyric { get; set; }
         public int? Duration { get; set; }
-        public int? Type { get; set; }
         public DateTime? ReleaseDate { get; set; }
         public int? Likes { get; set; }
         public int? Downloads { get; set; }
         public int? Listens { get; set; }
         public bool? IsDeleted { get; set; }
+        public bool? IsRecognizable { get; set; }
+
+        public virtual ICollection<ArtistSong> ArtistSong { get; set; }
+        public virtual ICollection<GenreSong> GenreSong { get; set; }
+        public virtual ICollection<Like> Like { get; set; }
+        public virtual ICollection<PlaylistSong> PlaylistSong { get; set; }
     }
 }
