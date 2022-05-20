@@ -27,6 +27,37 @@ namespace MusicPlayer.Controllers
             return await _context.Artist.ToListAsync();
         }
 
+        // GET: api/Artists/trending
+        [HttpGet("trending")]
+        public async Task<ActionResult<IEnumerable<Artist>>> GetTrendingArtist()
+        {
+            return await _context.Artist
+                .OrderByDescending(a => a.ArtistSong.Sum(
+                                    artistSong => artistSong.Song.Listens + artistSong.Song.Downloads + artistSong.Song.Likes))
+                .Take(10)
+                .ToListAsync();
+        }
+
+        // GET: api/Artists/id/songs
+        [HttpGet("{id}/songs")]
+        public async Task<ActionResult<IEnumerable<Song>>> GetSongsByArtistId(string id)
+        {
+            var artist = await _context.Artist.FindAsync(id);
+
+            if (artist == null)
+            {
+                return NotFound();
+            }
+            var songs = await _context.ArtistSong
+                .Where(artistSong => artistSong.ArtistId == id)
+                .Select(artSong => artSong.Song).ToListAsync();
+            if (!songs.Any())
+            {
+                return NoContent();
+            }
+            return songs;
+        }
+
         // GET: api/Artists/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Artist>> GetArtist(string id)

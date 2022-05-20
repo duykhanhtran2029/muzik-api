@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Database.MusicPlayer.Models;
+using MusicPlayer.Controllers.DTO;
 
 namespace MusicPlayer.Controllers
 {
@@ -25,6 +26,30 @@ namespace MusicPlayer.Controllers
         public async Task<ActionResult<IEnumerable<Song>>> GetSong()
         {
             return await _context.Song.ToListAsync();
+        }
+
+        // GET: api/Songs/trending
+        [HttpGet("trending")]
+        public async Task<ActionResult<IEnumerable<SongDTO>>> GetTrendingSongs()
+        {
+            return await _context.Song
+                .OrderByDescending(s => s.Downloads + s.Likes + s.Listens)
+                .Select(s => new SongDTO(s, s.ArtistSong.Select(a => a.Artist).ToList()))
+                .Take(10)
+                .ToListAsync();
+        }
+
+        // GET: api/Songs/newest
+        [HttpGet("newest")]
+        public async Task<ActionResult<IEnumerable<SongDTO>>> GetNewestSongs()
+        {
+            return await 
+                _context.Song
+                .OrderByDescending(s => s.Downloads + s.Likes + s.Listens)
+                .OrderByDescending(s => s.ReleaseDate)
+                .Select(s => new SongDTO(s,s.ArtistSong.Select(a => a.Artist).ToList()))
+                .Take(5)
+                .ToListAsync();
         }
 
         // GET: api/Songs/5
