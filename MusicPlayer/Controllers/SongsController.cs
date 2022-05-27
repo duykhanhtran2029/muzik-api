@@ -23,9 +23,11 @@ namespace MusicPlayer.Controllers
 
         // GET: api/Songs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Song>>> GetSong()
+        public async Task<ActionResult<IEnumerable<SongDTO>>> GetSong()
         {
-            return await _context.Song.ToListAsync();
+            return await _context.Song
+                .Select(s => new SongDTO(s, s.ArtistSong.Select(a => a.Artist).ToList()))
+                .ToListAsync();
         }
 
         // GET: api/Songs/trending

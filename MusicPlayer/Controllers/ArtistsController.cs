@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Database.MusicPlayer.Models;
+using MusicPlayer.Controllers.DTO;
 
 namespace MusicPlayer.Controllers
 {
@@ -22,9 +23,11 @@ namespace MusicPlayer.Controllers
 
         // GET: api/Artists
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Artist>>> GetArtist()
+        public async Task<ActionResult<IEnumerable<ArtistDTO>>> GetArtist()
         {
-            return await _context.Artist.ToListAsync();
+            return await _context.Artist
+                .Select(a => new ArtistDTO(a, a.ArtistSong.Select(ars => ars.Song).ToList()))
+                .ToListAsync();
         }
 
         // GET: api/Artists/trending
@@ -50,6 +53,7 @@ namespace MusicPlayer.Controllers
             }
             var songs = await _context.ArtistSong
                 .Where(artistSong => artistSong.ArtistId == id)
+                .OrderByDescending(artistSong => artistSong.Song.Listens + artistSong.Song.Downloads + artistSong.Song.Likes)
                 .Select(artSong => artSong.Song).ToListAsync();
             if (!songs.Any())
             {
@@ -60,16 +64,19 @@ namespace MusicPlayer.Controllers
 
         // GET: api/Artists/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Artist>> GetArtist(string id)
+        public async Task<ActionResult<ArtistDTO>> GetArtist(string id)
         {
-            var artist = await _context.Artist.FindAsync(id);
-
+            var artist = await _context.Artist
+                .Include(a => a.ArtistSong)
+                .ThenInclude(artistSong => artistSong.Song)
+                .FirstOrDefaultAsync(artist => artist.ArtistId == id);
+          
             if (artist == null)
             {
                 return NotFound();
             }
 
-            return artist;
+            return new ArtistDTO(artist, artist.ArtistSong.Select(ars => ars.Song).ToList());
         }
 
         // PUT: api/Artists/5
