@@ -7,7 +7,7 @@
 _// change directory to your source repo_
 `> cd {project_root_directory}\Database\MusicPlayer\Scripts` 
 _// run script to initialize database_
-`> sqlcmd -S (LocalDB)\MSSQLLocalDB -E -d MUSICPLAYER -i runscript.sql -v FilePath="." ENV="local"`
+`> sqlcmd -S  TEDDY\MSSQLSERVER3 -E -d MUSICPLAYER -i runscript.sql -v FilePath="." ENV="local"`
 
 ## II. Update latest schema from Database (Optional)
 **_a. Step 1:_** Install these packages to the project storing database scripts and generated entities of DbContext
@@ -22,4 +22,4 @@ _// run script to initialize database_
 _// change directory to your source repo_
 `> {project_root_directory}\Database`
 _// generate entity classes (scaffold db context)_
-`> Scaffold-DbContext "Server=(localdb)\MSSQLLocalDB;Database=MUSICPLAYER;Trusted_Connection=True" Microsoft.EntityFrameworkCore.SqlServer -Context MusicPlayerDbContext -OutputDir MusicPlayer/Models`
+`> Scaffold-DbContext "Server=TEDDY\MSSQLSERVER3;Database=MUSICPLAYER;Trusted_Connection=True" Microsoft.EntityFrameworkCore.SqlServer -Context MusicPlayerDbContext -OutputDir MusicPlayer/Models`
