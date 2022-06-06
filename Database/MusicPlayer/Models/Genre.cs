@@ -16,7 +16,7 @@ namespace Database.MusicPlayer.Models
 
         public string GenreId { get; set; }
         public string GenreName { get; set; }
-        public bool? IsDeleted { get; set; }
+        public bool IsDeleted { get; set; }
 
         public virtual ICollection<GenreSong> GenreSong { get; set; }
     }

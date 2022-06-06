@@ -7,13 +7,15 @@ namespace MusicPlayer.Controllers.DTO
 {
     public partial class SongDTO
     {
+        public SongDTO()
+        {
+
+        }
         public SongDTO (Song s, ICollection<Artist> artists)
         {
             SongId = s.SongId;
             SongName = s.SongName;
-            ThumbnailS = s.ThumbnailS;
-            ThumbnailL = s.ThumbnailL;
-            ThumbnailM = s.ThumbnailM;
+            Thumbnail = s.Thumbnail;
             Likes = s.Likes;
             Link = s.Link;
             LinkBeat = s.LinkBeat;
@@ -29,9 +31,7 @@ namespace MusicPlayer.Controllers.DTO
         }
         public string SongId { get; set; }
         public string SongName { get; set; }
-        public string ThumbnailS { get; set; }
-        public string ThumbnailM { get; set; }
-        public string ThumbnailL { get; set; }
+        public string Thumbnail { get; set; }
         public string Link { get; set; }
         public string LinkBeat { get; set; }
         public string LinkLyric { get; set; }
@@ -40,8 +40,8 @@ namespace MusicPlayer.Controllers.DTO
         public int? Likes { get; set; }
         public int? Downloads { get; set; }
         public int? Listens { get; set; }
-        public bool? IsDeleted { get; set; }
-        public bool? IsRecognizable { get; set; }
+        public bool IsDeleted { get; set; }
+        public bool IsRecognizable { get; set; }
         public string ArtistsName { get; set; }
         public ICollection<Artist> Artists { get; set; }
     }

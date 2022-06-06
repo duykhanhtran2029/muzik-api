@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using CoreLib;
+using MusicPlayer.Servcies;
 
 namespace AudioFingerPrinting
 {
@@ -38,6 +39,7 @@ namespace AudioFingerPrinting
                 st.GetRequiredService<IOptions<AzureStorageSettings>>().Value);
 
             services.AddSingleton<BlobSvc>();
+            services.AddSingleton<SongSvc>();
 
             services.AddControllers();
 

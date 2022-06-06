@@ -25,8 +25,8 @@ namespace DataProcessor
         static private readonly string[] tables = { "Genre", "Artist", "Song", "GenreSong", "ArtistSong"};
         static private readonly string[] queryPatterns = {
             "INSERT [dbo].[{0}] ([{0}ID], [GenreName], [IsDeleted]) VALUES (N\'{1}\', N\'{2}\', 0);",
-            "INSERT [dbo].[{0}] ([{0}ID], [ArtistName], [ThumbnailS], [ThumbnailM], [ThumbnailL], [IsDeleted]) VALUES (N\'{1}\', N\'{2}\', N\'{3}\', N\'{4}\', N\'{5}\', 0)",
-            "INSERT [dbo].[{0}] ([{0}ID], [SongName], [ThumbnailS], [ThumbnailM], [ThumbnailL], [Link], [LinkBeat], [LinkLyric], [Duration], [ReleaseDate], [Likes], [Downloads], [Listens], [IsDeleted], [IsRecognizable]) VALUES (N\'{1}\', N\'{2}\', N\'{3}\', N\'{4}\', N\'{5}\', N\'{6}\', N\'{7}\', N\'{8}\', 0, \'{9}\', 0, \'{10}\', \'{11}\', 0, 1)",
+            "INSERT [dbo].[{0}] ([{0}ID], [ArtistName], [Thumbnail], [IsDeleted]) VALUES (N\'{1}\', N\'{2}\', N\'{3}\', 0)",
+            "INSERT [dbo].[{0}] ([{0}ID], [SongName], [Thumbnail], [Link], [LinkBeat], [LinkLyric], [Duration], [ReleaseDate], [Likes], [Downloads], [Listens], [IsDeleted], [IsRecognizable]) VALUES (N\'{1}\', N\'{2}\', N\'{3}\', N\'{4}\', N\'{5}\', N\'{6}\', 0, \'{7}\', 0, \'{8}\', \'{9}\', 0, 1)",
             "INSERT [dbo].[{0}] ([GenreID], [SongID]) VALUES (N\'{1}\', N\'{2}\');",
             "INSERT [dbo].[{0}] ([ArtistID], [SongID]) VALUES (N\'{1}\', N\'{2}\');",
         };
@@ -59,13 +59,13 @@ namespace DataProcessor
                         row = string.Format(queryPatterns[index], tables[index], item["ID"], item["Name"].ToString().Replace("'", "''"));
                         break;
                     case TABLE.Artist:
-                        row = string.Format(queryPatterns[index], tables[index], item["ID"], item["Name"].ToString().Replace("'", "''"), item["Thumbnail"], item["ThumbnailM"],
+                        row = string.Format(queryPatterns[index], tables[index], item["ID"], item["Name"].ToString().Replace("'", "''"),
                         item["Thumbnail"].ToString().Contains("artist_default_2.png") ? item["Thumbnail"] : item["Thumbnail"].ToString().Replace("w360_r1x1", "w600_r1x1"));
                         break;
                     case TABLE.Song:
                         Random rand = new Random();
                         row = string.Format(queryPatterns[index], tables[index], item["Name"], item["Title"].ToString().Replace("'", "''"),
-                        item["Thumbnail"], item["ThumbnailM"], item["ThumbnailL"],
+                        item["Thumbnail"],
                         item["Link"], item["LinkBeat"], item["LinkLyric"], new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds((long)item["ReleaseDate"]), rand.Next(0, 1000), rand.Next(0, 10000));
                         break;
                     default:

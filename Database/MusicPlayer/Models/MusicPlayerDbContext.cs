@@ -29,6 +29,15 @@ namespace Database.MusicPlayer.Models
         public virtual DbSet<Song> Song { get; set; }
         public virtual DbSet<User> User { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=MUSICPLAYER;Trusted_Connection=True");
+            }
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Artist>(entity =>
@@ -40,13 +49,7 @@ namespace Database.MusicPlayer.Models
 
                 entity.Property(e => e.ArtistName).IsRequired();
 
-                entity.Property(e => e.IsDeleted).HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.ThumbnailL).IsUnicode(false);
-
-                entity.Property(e => e.ThumbnailM).IsUnicode(false);
-
-                entity.Property(e => e.ThumbnailS).IsUnicode(false);
+                entity.Property(e => e.Thumbnail).IsUnicode(false);
             });
 
             modelBuilder.Entity<ArtistSong>(entity =>
@@ -67,13 +70,13 @@ namespace Database.MusicPlayer.Models
                     .WithMany(p => p.ArtistSong)
                     .HasForeignKey(d => d.ArtistId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ArtistSon__Artis__4AB81AF0");
+                    .HasConstraintName("FK__ArtistSon__Artis__38996AB5");
 
                 entity.HasOne(d => d.Song)
                     .WithMany(p => p.ArtistSong)
                     .HasForeignKey(d => d.SongId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ArtistSon__SongI__4BAC3F29");
+                    .HasConstraintName("FK__ArtistSon__SongI__398D8EEE");
             });
 
             modelBuilder.Entity<Genre>(entity =>
@@ -84,8 +87,6 @@ namespace Database.MusicPlayer.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.GenreName).IsRequired();
-
-                entity.Property(e => e.IsDeleted).HasDefaultValueSql("((0))");
             });
 
             modelBuilder.Entity<GenreSong>(entity =>
@@ -106,13 +107,13 @@ namespace Database.MusicPlayer.Models
                     .WithMany(p => p.GenreSong)
                     .HasForeignKey(d => d.GenreId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__GenreSong__Genre__4CA06362");
+                    .HasConstraintName("FK__GenreSong__Genre__3A81B327");
 
                 entity.HasOne(d => d.Song)
                     .WithMany(p => p.GenreSong)
                     .HasForeignKey(d => d.SongId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__GenreSong__SongI__4D94879B");
+                    .HasConstraintName("FK__GenreSong__SongI__3B75D760");
             });
 
             modelBuilder.Entity<Like>(entity =>
@@ -134,13 +135,13 @@ namespace Database.MusicPlayer.Models
                     .WithMany(p => p.Like)
                     .HasForeignKey(d => d.SongId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Like__SongID__4E88ABD4");
+                    .HasConstraintName("FK__Like__SongID__3C69FB99");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Like)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Like__UserID__4F7CD00D");
+                    .HasConstraintName("FK__Like__UserID__3D5E1FD2");
             });
 
             modelBuilder.Entity<Playlist>(entity =>
@@ -149,8 +150,6 @@ namespace Database.MusicPlayer.Models
                     .HasColumnName("PlaylistID")
                     .HasMaxLength(8)
                     .IsUnicode(false);
-
-                entity.Property(e => e.IsDeleted).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.PlaylistName).IsRequired();
 
@@ -179,13 +178,13 @@ namespace Database.MusicPlayer.Models
                     .WithMany(p => p.PlaylistSong)
                     .HasForeignKey(d => d.PlaylistId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PlaylistS__Playl__5070F446");
+                    .HasConstraintName("FK__PlaylistS__Playl__3E52440B");
 
                 entity.HasOne(d => d.Song)
                     .WithMany(p => p.PlaylistSong)
                     .HasForeignKey(d => d.SongId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PlaylistS__SongI__5165187F");
+                    .HasConstraintName("FK__PlaylistS__SongI__3F466844");
             });
 
             modelBuilder.Entity<Song>(entity =>
@@ -194,8 +193,6 @@ namespace Database.MusicPlayer.Models
                     .HasColumnName("SongID")
                     .HasMaxLength(8)
                     .IsUnicode(false);
-
-                entity.Property(e => e.IsDeleted).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.Link).IsUnicode(false);
 
@@ -207,11 +204,7 @@ namespace Database.MusicPlayer.Models
 
                 entity.Property(e => e.SongName).IsRequired();
 
-                entity.Property(e => e.ThumbnailL).IsUnicode(false);
-
-                entity.Property(e => e.ThumbnailM).IsUnicode(false);
-
-                entity.Property(e => e.ThumbnailS).IsUnicode(false);
+                entity.Property(e => e.Thumbnail).IsUnicode(false);
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -232,8 +225,6 @@ namespace Database.MusicPlayer.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.FirstName).IsRequired();
-
-                entity.Property(e => e.IsDeleted).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.LastName).IsRequired();
 
