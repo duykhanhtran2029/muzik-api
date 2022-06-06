@@ -13,6 +13,7 @@ namespace MusicPlayer.MusicPlayer.Models
         {
             ArtistSong = new HashSet<ArtistSong>();
             GenreSong = new HashSet<GenreSong>();
+            History = new HashSet<History>();
             Like = new HashSet<Like>();
             PlaylistSong = new HashSet<PlaylistSong>();
         }
@@ -35,6 +36,7 @@ namespace MusicPlayer.MusicPlayer.Models
 
         public virtual ICollection<ArtistSong> ArtistSong { get; set; }
         public virtual ICollection<GenreSong> GenreSong { get; set; }
+        public virtual ICollection<History> History { get; set; }
         public virtual ICollection<Like> Like { get; set; }
         public virtual ICollection<PlaylistSong> PlaylistSong { get; set; }
     }

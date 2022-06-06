@@ -1,0 +1,90 @@
+[
+  {
+    "UserId": 0,
+    "FirstName": "A",
+    "LastName": "Nguyen",
+    "Username": "admin",
+    "Password": "admin",
+    "Avatar": "https://photo-resize-zmp3.zadn.vn/w128_r1x1_jpeg/cover/e/f/e/6/efe6694eb3a4dfce261d43082c032526.jpg",
+    "Email": "huutri148@gmail.com",
+    "DateOfBirth": "1605718800",
+    "IsDeleted": false
+  },
+  {
+    "UserId": 1,
+    "FirstName": "B",
+    "LastName": "Nguyen",
+    "Username": "admin1",
+    "Password": "admin1",
+    "Avatar": "https://photo-resize-zmp3.zadn.vn/w128_r1x1_jpeg/cover/e/f/e/6/efe6694eb3a4dfce261d43082c032526.jpg",
+    "Email": "huutri148@gmail.com",
+    "DateOfBirth": "1605718800",
+    "IsDeleted": false
+  },
+  {
+    "UserId": 2,
+    "FirstName": "C",
+    "LastName": "Nguyen",
+    "Username": "admin2",
+    "Password": "admin2",
+    "Avatar": "https://photo-resize-zmp3.zadn.vn/w128_r1x1_jpeg/cover/e/f/e/6/efe6694eb3a4dfce261d43082c032526.jpg",
+    "Email": "huutri148@gmail.com",
+    "DateOfBirth": "1605718800",
+    "IsDeleted": false
+  },
+  {
+    "UserId": 3,
+    "FirstName": "A",
+    "LastName": "Nguyen",
+    "Username": "admin3",
+    "Password": "admin3",
+    "Avatar": "https://photo-resize-zmp3.zadn.vn/w128_r1x1_jpeg/cover/e/f/e/6/efe6694eb3a4dfce261d43082c032526.jpg",
+    "Email": "huutri148@gmail.com",
+    "DateOfBirth": "1605718800",
+    "IsDeleted": false
+  },
+  {
+    "UserId": 4,
+    "FirstName": "D",
+    "LastName": "Nguyen",
+    "Username": "user1",
+    "Password": "123456",
+    "Avatar": "https://photo-resize-zmp3.zadn.vn/w128_r1x1_jpeg/cover/e/f/e/6/efe6694eb3a4dfce261d43082c032526.jpg",
+    "Email": "huutri148@gmail.com",
+    "DateOfBirth": "1605718800",
+    "IsDeleted": false
+  },
+  {
+    "UserId": 5,
+    "FirstName": "E",
+    "LastName": "Nguyen",
+    "Username": "user2",
+    "Password": "123456",
+    "Avatar": "https://photo-resize-zmp3.zadn.vn/w128_r1x1_jpeg/cover/e/f/e/6/efe6694eb3a4dfce261d43082c032526.jpg",
+    "Email": "huutri148@gmail.com",
+    "DateOfBirth": "1605718800",
+    "IsDeleted": false
+  },
+  {
+    "UserId": 6,
+    "FirstName": "F",
+    "LastName": "Nguyen",
+    "Username": "user3",
+    "Password": "123456",
+    "Avatar": "https://photo-resize-zmp3.zadn.vn/w128_r1x1_jpeg/cover/e/f/e/6/efe6694eb3a4dfce261d43082c032526.jpg",
+    "Email": "huutri148@gmail.com",
+    "DateOfBirth": "1605718800",
+    "IsDeleted": false
+  },
+  {
+    "UserId": 0,
+    "FirstName": "G",
+    "LastName": "Nguyen",
+    "Username": "user4",
+    "Password": "123456",
+    "Avatar": "https://photo-resize-zmp3.zadn.vn/w128_r1x1_jpeg/cover/e/f/e/6/efe6694eb3a4dfce261d43082c032526.jpg",
+    "Email": "huutri148@gmail.com",
+    "DateOfBirth": "1605718800",
+    "IsDeleted": false
+  }
+]

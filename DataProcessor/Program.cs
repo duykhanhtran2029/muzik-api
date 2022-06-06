@@ -15,20 +15,24 @@ namespace DataProcessor
         GenreSong = 4,
         ArtistSong = 5,
         AlbumSong = 6,
-        AlbumArtist = 7
+        AlbumArtist = 7,
+        User = 8,
+        History = 9
     }
     class Program
     {
         static private readonly string removedPath = @"DataProcessor\bin\Debug\netcoreapp3.1";
         static private readonly string dataPath = @"Database\MusicPlayer\Data";
         static private readonly string sqlDataPath = @"Database\MusicPlayer\Scripts\DatabaseData.sql";
-        static private readonly string[] tables = { "Genre", "Artist", "Song", "GenreSong", "ArtistSong"};
+        static private readonly string[] tables = { "Genre", "Artist", "Song", "GenreSong", "ArtistSong", "User", "History"};
         static private readonly string[] queryPatterns = {
             "INSERT [dbo].[{0}] ([{0}ID], [GenreName], [IsDeleted]) VALUES (N\'{1}\', N\'{2}\', 0);",
             "INSERT [dbo].[{0}] ([{0}ID], [ArtistName], [ThumbnailS], [ThumbnailM], [ThumbnailL], [IsDeleted]) VALUES (N\'{1}\', N\'{2}\', N\'{3}\', N\'{4}\', N\'{5}\', 0)",
             "INSERT [dbo].[{0}] ([{0}ID], [SongName], [ThumbnailS], [ThumbnailM], [ThumbnailL], [Link], [LinkBeat], [LinkLyric], [Duration], [ReleaseDate], [Likes], [Downloads], [Listens], [IsDeleted], [IsRecognizable]) VALUES (N\'{1}\', N\'{2}\', N\'{3}\', N\'{4}\', N\'{5}\', N\'{6}\', N\'{7}\', N\'{8}\', 0, \'{9}\', 0, \'{10}\', \'{11}\', 0, 1)",
             "INSERT [dbo].[{0}] ([GenreID], [SongID]) VALUES (N\'{1}\', N\'{2}\');",
             "INSERT [dbo].[{0}] ([ArtistID], [SongID]) VALUES (N\'{1}\', N\'{2}\');",
+            "INSERT [dbo].[{0}] ([{0}ID], [FirstName], [LastName], [{0}Name], [Password], [Avatar], [Email], [DateOfBirth], [IsDeleted]) VALUES (N\'{1}\', N\'{2}\', N\'{3}\', N\'{4}\', N\'{5}\', N\'{6}\', N\'{7}\', N\'{8}\', 0)",
+            "INSERT [dbo].[{0}] ([UserID], [SongID], [Count]) VALUES (N\'{1}\', N\'{2}\', N\'{3}\');",
         };
         static private string fullDataPath;
         static private string fullDataSqlPath;
@@ -42,6 +46,8 @@ namespace DataProcessor
             }
             GenGenreSongInsertQueries();
             GenArtistSongInsertQueries();
+            GenUserInsertQueries();
+            GenHistoryInsertQueries();
             //GenSongInsertQueries();
         }
 
@@ -111,5 +117,37 @@ namespace DataProcessor
             File.AppendAllText(fullDataSqlPath, "\n" + Environment.NewLine);
         }
 
+        static void GenUserInsertQueries()
+        {
+            File.AppendAllText(fullDataSqlPath, $"/****** Object:  Table [dbo].[User]    Script Date: {DateTime.Now} ******/\n" + Environment.NewLine);
+            JToken list = JToken.Parse(File.ReadAllText(fullDataPath + "\\" + "user.json"));
+
+            foreach (var item in list)
+            {
+                string row = "";
+                Random randU = new Random();
+                row = string.Format(queryPatterns[5], tables[5], item["UserId"], item["FirstName"],
+                     item["LastName"], item["Username"], item["Password"],
+                item["Avatar"], item["Email"], new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds((long)item["DateOfBirth"]), randU.Next(0, 1000), randU.Next(0, 10000));
+                File.AppendAllText(fullDataSqlPath, row + Environment.NewLine);
+            }
+            File.AppendAllText(fullDataSqlPath, "\n" + Environment.NewLine);
+        }
+
+
+        static void GenHistoryInsertQueries()
+        {
+            File.AppendAllText(fullDataSqlPath, $"/****** Object:  Table [dbo].[History]    Script Date: {DateTime.Now} ******/\n" + Environment.NewLine);
+            JToken list = JToken.Parse(File.ReadAllText(fullDataPath + "\\" + "history.json"));
+
+            foreach (var item in list)
+            {
+                string row = "";
+                row = string.Format(queryPatterns[6], tables[6], item["UserId"], item["SongId"],
+                     item["Count"]);
+                File.AppendAllText(fullDataSqlPath, row + Environment.NewLine);
+            }
+            File.AppendAllText(fullDataSqlPath, "\n" + Environment.NewLine);
+        }
     }
 }

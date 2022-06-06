@@ -23,6 +23,7 @@ namespace MusicPlayer.MusicPlayer.Models
         public virtual DbSet<ArtistSong> ArtistSong { get; set; }
         public virtual DbSet<Genre> Genre { get; set; }
         public virtual DbSet<GenreSong> GenreSong { get; set; }
+        public virtual DbSet<History> History { get; set; }
         public virtual DbSet<Like> Like { get; set; }
         public virtual DbSet<Playlist> Playlist { get; set; }
         public virtual DbSet<PlaylistSong> PlaylistSong { get; set; }
@@ -76,13 +77,13 @@ namespace MusicPlayer.MusicPlayer.Models
                     .WithMany(p => p.ArtistSong)
                     .HasForeignKey(d => d.ArtistId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ArtistSon__Artis__38996AB5");
+                    .HasConstraintName("FK__ArtistSon__Artis__3A81B327");
 
                 entity.HasOne(d => d.Song)
                     .WithMany(p => p.ArtistSong)
                     .HasForeignKey(d => d.SongId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ArtistSon__SongI__398D8EEE");
+                    .HasConstraintName("FK__ArtistSon__SongI__3B75D760");
             });
 
             modelBuilder.Entity<Genre>(entity =>
@@ -115,13 +116,41 @@ namespace MusicPlayer.MusicPlayer.Models
                     .WithMany(p => p.GenreSong)
                     .HasForeignKey(d => d.GenreId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__GenreSong__Genre__3A81B327");
+                    .HasConstraintName("FK__GenreSong__Genre__3C69FB99");
 
                 entity.HasOne(d => d.Song)
                     .WithMany(p => p.GenreSong)
                     .HasForeignKey(d => d.SongId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__GenreSong__SongI__3B75D760");
+                    .HasConstraintName("FK__GenreSong__SongI__3D5E1FD2");
+            });
+
+            modelBuilder.Entity<History>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.SongId })
+                    .HasName("PK_UserSong_History");
+
+                entity.Property(e => e.UserId)
+                    .HasColumnName("UserID")
+                    .HasMaxLength(8)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SongId)
+                    .HasColumnName("SongID")
+                    .HasMaxLength(8)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Song)
+                    .WithMany(p => p.History)
+                    .HasForeignKey(d => d.SongId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__History__SongID__4222D4EF");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.History)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__History__UserID__4316F928");
             });
 
             modelBuilder.Entity<Like>(entity =>
@@ -143,13 +172,13 @@ namespace MusicPlayer.MusicPlayer.Models
                     .WithMany(p => p.Like)
                     .HasForeignKey(d => d.SongId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Like__SongID__3C69FB99");
+                    .HasConstraintName("FK__Like__SongID__3E52440B");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Like)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Like__UserID__3D5E1FD2");
+                    .HasConstraintName("FK__Like__UserID__3F466844");
             });
 
             modelBuilder.Entity<Playlist>(entity =>
@@ -188,13 +217,13 @@ namespace MusicPlayer.MusicPlayer.Models
                     .WithMany(p => p.PlaylistSong)
                     .HasForeignKey(d => d.PlaylistId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PlaylistS__Playl__3E52440B");
+                    .HasConstraintName("FK__PlaylistS__Playl__403A8C7D");
 
                 entity.HasOne(d => d.Song)
                     .WithMany(p => p.PlaylistSong)
                     .HasForeignKey(d => d.SongId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PlaylistS__SongI__3F466844");
+                    .HasConstraintName("FK__PlaylistS__SongI__412EB0B6");
             });
 
             modelBuilder.Entity<Song>(entity =>

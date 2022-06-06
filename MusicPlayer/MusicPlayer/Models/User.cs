@@ -11,6 +11,7 @@ namespace MusicPlayer.MusicPlayer.Models
     {
         public User()
         {
+            History = new HashSet<History>();
             Like = new HashSet<Like>();
         }
 
@@ -24,6 +25,7 @@ namespace MusicPlayer.MusicPlayer.Models
         public DateTime? DateOfBirth { get; set; }
         public bool? IsDeleted { get; set; }
 
+        public virtual ICollection<History> History { get; set; }
         public virtual ICollection<Like> Like { get; set; }
     }
 }
