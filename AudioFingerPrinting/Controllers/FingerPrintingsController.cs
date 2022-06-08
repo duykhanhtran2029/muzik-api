@@ -56,19 +56,18 @@ namespace AudioFingerPrinting.Controllers
         [HttpPost("FingerPrinting")]
         public async Task<IActionResult> ProcessRecord([FromBody] Record_RequestDTO request)
         {
-
             string path = await _blobStorageSvc.GetFileBlobAsync(_settings.RecordsContainer, request.FileName);
             MemoryStream stream = AudioReader.WavConverter(path);
             byte[] data = stream.ToArray();
             FingerPrintingResult result = Startup.recognizer.Recognizing(data);
             var jsonResult = JsonConvert.SerializeObject(result);
 
-
             stream.Dispose();
             if (System.IO.File.Exists(path))
             {
                 System.IO.File.Delete(path);
             }
+
             await _blobStorageSvc.DeleteFileBlobAsync(_settings.RecordsContainer, request.FileName);
 
             return this.Ok(jsonResult);

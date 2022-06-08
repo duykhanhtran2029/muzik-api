@@ -166,6 +166,16 @@ namespace MusicPlayer.Controllers
             return CreatedAtAction("GetSong", new { id = song.SongId }, song);
         }
 
+        // POST: api/Songs/songs
+        [HttpPost("songs")]
+        public async Task<ActionResult<IEnumerable<SongDTO>>> GetSongs([FromBody] string[] songIds)
+        {
+            return await _context.Song
+                .Where(s => !s.IsDeleted && songIds.Any(id => id == s.SongId))
+                .Select(s => new SongDTO(s, s.ArtistSong.Select(a => a.Artist).ToList()))
+                .ToListAsync();
+        }
+
         // DELETE: api/Songs/ZO09IFDF
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSong(string id)
