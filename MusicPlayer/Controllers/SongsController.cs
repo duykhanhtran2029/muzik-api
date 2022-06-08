@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Database.MusicPlayer.Models;
 using MusicPlayer.Controllers.DTO;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace MusicPlayer.Controllers
 {
@@ -26,6 +28,7 @@ namespace MusicPlayer.Controllers
         public async Task<ActionResult<IEnumerable<SongDTO>>> GetSong()
         {
             return await _context.Song
+                .Where(s => !s.IsDeleted)
                 .Select(s => new SongDTO(s, s.ArtistSong.Select(a => a.Artist).ToList()))
                 .ToListAsync();
         }
@@ -35,6 +38,7 @@ namespace MusicPlayer.Controllers
         public async Task<ActionResult<IEnumerable<SongDTO>>> GetTrendingSongs()
         {
             return await _context.Song
+                .Where(s => !s.IsDeleted)
                 .OrderByDescending(s => s.Downloads + s.Likes + s.Listens)
                 .Select(s => new SongDTO(s, s.ArtistSong.Select(a => a.Artist).ToList()))
                 .Take(10)
@@ -45,11 +49,12 @@ namespace MusicPlayer.Controllers
         [HttpGet("newest")]
         public async Task<ActionResult<IEnumerable<SongDTO>>> GetNewestSongs()
         {
-            return await 
+            return await
                 _context.Song
+                .Where(s => !s.IsDeleted)
                 .OrderByDescending(s => s.Downloads + s.Likes + s.Listens)
                 .OrderByDescending(s => s.ReleaseDate)
-                .Select(s => new SongDTO(s,s.ArtistSong.Select(a => a.Artist).ToList()))
+                .Select(s => new SongDTO(s, s.ArtistSong.Select(a => a.Artist).ToList()))
                 .Take(5)
                 .ToListAsync();
         }
@@ -72,11 +77,26 @@ namespace MusicPlayer.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSong(string id, Song song)
+        public async Task<IActionResult> PutSong(string id, [FromBody] SongDTO data)
         {
-            if (id != song.SongId)
+            Song song = await _context.Song.Include(s => s.ArtistSong).FirstOrDefaultAsync(s => s.SongId == id);
+            song.SongName = data.SongName;
+            song.LinkLyric = data.LinkLyric;
+            song.Link = data.Link;
+            song.LinkBeat = data.LinkBeat;
+            song.Thumbnail = data.Thumbnail;
+
+            foreach (var item in song.ArtistSong)
             {
-                return BadRequest();
+                _context.ArtistSong.Remove(item);
+            }
+
+            foreach (var item in data.Artists)
+            {
+                var artistSong = new ArtistSong();
+                artistSong.ArtistId = item.ArtistId;
+                artistSong.SongId = song.SongId;
+                _context.ArtistSong.Add(artistSong);
             }
 
             _context.Entry(song).State = EntityState.Modified;
@@ -104,9 +124,29 @@ namespace MusicPlayer.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Song>> PostSong(Song song)
+        public async Task<ActionResult> PostSong([FromBody] SongDTO data)
         {
+            var song = new Song();
+            song.SongId = data.SongId;
+            song.SongName = data.SongName;
+            song.LinkLyric = data.LinkLyric;
+            song.Link = data.Link;
+            song.LinkBeat = data.LinkBeat;
+            song.Thumbnail = data.Thumbnail;
+            song.ReleaseDate = DateTime.Now;
+            song.Likes = song.Listens = song.Downloads = song.Duration = 0;
+            song.IsDeleted = false;
+            song.IsRecognizable = false;
+
             _context.Song.Add(song);
+
+            foreach (var item in data.Artists)
+            {
+                var artistSong = new ArtistSong();
+                artistSong.ArtistId = item.ArtistId;
+                artistSong.SongId = song.SongId;
+                _context.ArtistSong.Add(artistSong);
+            }
             try
             {
                 await _context.SaveChangesAsync();
@@ -126,20 +166,45 @@ namespace MusicPlayer.Controllers
             return CreatedAtAction("GetSong", new { id = song.SongId }, song);
         }
 
-        // DELETE: api/Songs/5
+        // POST: api/Songs/songs
+        [HttpPost("songs")]
+        public async Task<ActionResult<IEnumerable<SongDTO>>> GetSongs([FromBody] string[] songIds)
+        {
+            return await _context.Song
+                .Where(s => !s.IsDeleted && songIds.Any(id => id == s.SongId))
+                .Select(s => new SongDTO(s, s.ArtistSong.Select(a => a.Artist).ToList()))
+                .ToListAsync();
+        }
+
+        // DELETE: api/Songs/ZO09IFDF
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Song>> DeleteSong(string id)
+        public async Task<IActionResult> DeleteSong(string id)
         {
             var song = await _context.Song.FindAsync(id);
             if (song == null)
             {
                 return NotFound();
             }
+            song.IsDeleted = true;
+            _context.Entry(song).State = EntityState.Modified;
 
-            _context.Song.Remove(song);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!SongExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
-            return song;
+            return NoContent();
         }
 
         private bool SongExists(string id)

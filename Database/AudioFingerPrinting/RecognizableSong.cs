@@ -17,7 +17,7 @@ namespace Database.AudioFingerPrinting
 
 		[DataMember]
 		[BsonElement("Name")]
-		[JsonProperty("name")]
+		[JsonProperty("songId")]
 		public string Name { get; set; }
 
 	}

@@ -26,6 +26,7 @@ namespace MusicPlayer.Controllers
         public async Task<ActionResult<IEnumerable<ArtistDTO>>> GetArtist()
         {
             return await _context.Artist
+                .Where(artist => !artist.IsDeleted)
                 .Select(a => new ArtistDTO(a, a.ArtistSong.Select(ars => ars.Song).ToList()))
                 .ToListAsync();
         }
@@ -35,6 +36,7 @@ namespace MusicPlayer.Controllers
         public async Task<ActionResult<IEnumerable<Artist>>> GetTrendingArtist()
         {
             return await _context.Artist
+                .Where(artist => !artist.IsDeleted)
                 .OrderByDescending(a => a.ArtistSong.Sum(
                                     artistSong => artistSong.Song.Listens + artistSong.Song.Downloads + artistSong.Song.Likes))
                 .Take(10)
@@ -67,6 +69,7 @@ namespace MusicPlayer.Controllers
         public async Task<ActionResult<ArtistDTO>> GetArtist(string id)
         {
             var artist = await _context.Artist
+                .Where(artist => !artist.IsDeleted)
                 .Include(a => a.ArtistSong)
                 .ThenInclude(artistSong => artistSong.Song)
                 .FirstOrDefaultAsync(artist => artist.ArtistId == id);
@@ -83,7 +86,7 @@ namespace MusicPlayer.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutArtist(string id, Artist artist)
+        public async Task<IActionResult> PutArtist(string id, [FromBody] Artist artist)
         {
             if (id != artist.ArtistId)
             {
@@ -139,7 +142,7 @@ namespace MusicPlayer.Controllers
 
         // DELETE: api/Artists/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Artist>> DeleteArtist(string id)
+        public async Task<IActionResult> DeleteArtist(string id)
         {
             var artist = await _context.Artist.FindAsync(id);
             if (artist == null)
@@ -147,10 +150,26 @@ namespace MusicPlayer.Controllers
                 return NotFound();
             }
 
-            _context.Artist.Remove(artist);
-            await _context.SaveChangesAsync();
+            artist.IsDeleted = true;
+            _context.Entry(artist).State = EntityState.Modified;
 
-            return artist;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ArtistExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
         private bool ArtistExists(string id)

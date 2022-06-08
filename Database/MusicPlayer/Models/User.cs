@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
@@ -22,8 +23,8 @@ namespace Database.MusicPlayer.Models
         public string Avatar { get; set; }
         public string Email { get; set; }
         public DateTime? DateOfBirth { get; set; }
-        public bool? IsDeleted { get; set; }
-
+        public bool IsDeleted { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Like> Like { get; set; }
     }
 }

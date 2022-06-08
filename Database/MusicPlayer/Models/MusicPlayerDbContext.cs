@@ -49,13 +49,7 @@ namespace Database.MusicPlayer.Models
 
                 entity.Property(e => e.ArtistName).IsRequired();
 
-                entity.Property(e => e.IsDeleted).HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.ThumbnailL).IsUnicode(false);
-
-                entity.Property(e => e.ThumbnailM).IsUnicode(false);
-
-                entity.Property(e => e.ThumbnailS).IsUnicode(false);
+                entity.Property(e => e.Thumbnail).IsUnicode(false);
             });
 
             modelBuilder.Entity<ArtistSong>(entity =>
@@ -93,8 +87,6 @@ namespace Database.MusicPlayer.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.GenreName).IsRequired();
-
-                entity.Property(e => e.IsDeleted).HasDefaultValueSql("((0))");
             });
 
             modelBuilder.Entity<GenreSong>(entity =>
@@ -159,8 +151,6 @@ namespace Database.MusicPlayer.Models
                     .HasMaxLength(8)
                     .IsUnicode(false);
 
-                entity.Property(e => e.IsDeleted).HasDefaultValueSql("((0))");
-
                 entity.Property(e => e.PlaylistName).IsRequired();
 
                 entity.Property(e => e.UserId)
@@ -204,8 +194,6 @@ namespace Database.MusicPlayer.Models
                     .HasMaxLength(8)
                     .IsUnicode(false);
 
-                entity.Property(e => e.IsDeleted).HasDefaultValueSql("((0))");
-
                 entity.Property(e => e.Link).IsUnicode(false);
 
                 entity.Property(e => e.LinkBeat).IsUnicode(false);
@@ -216,11 +204,7 @@ namespace Database.MusicPlayer.Models
 
                 entity.Property(e => e.SongName).IsRequired();
 
-                entity.Property(e => e.ThumbnailL).IsUnicode(false);
-
-                entity.Property(e => e.ThumbnailM).IsUnicode(false);
-
-                entity.Property(e => e.ThumbnailS).IsUnicode(false);
+                entity.Property(e => e.Thumbnail).IsUnicode(false);
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -241,8 +225,6 @@ namespace Database.MusicPlayer.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.FirstName).IsRequired();
-
-                entity.Property(e => e.IsDeleted).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.LastName).IsRequired();
 

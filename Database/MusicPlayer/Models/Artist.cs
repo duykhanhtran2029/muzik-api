@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
@@ -16,11 +16,9 @@ namespace Database.MusicPlayer.Models
 
         public string ArtistId { get; set; }
         public string ArtistName { get; set; }
-        public string ThumbnailS { get; set; }
-        public string ThumbnailM { get; set; }
-        public string ThumbnailL { get; set; }
-        public bool? IsDeleted { get; set; }
-
+        public string Thumbnail { get; set; }
+        public bool IsDeleted { get; set; }
+        [JsonIgnore]
         public virtual ICollection<ArtistSong> ArtistSong { get; set; }
     }
 }

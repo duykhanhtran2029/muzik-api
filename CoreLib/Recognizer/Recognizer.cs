@@ -26,7 +26,7 @@ namespace CoreLib
         /// <summary>
         /// Number of processors
         /// </summary>
-        public const int PROCESSORS = 8;
+        public const int PROCESSORS = 16;
 
         /// <summary>
         /// Bits are stored as BE
