@@ -73,6 +73,66 @@ namespace MusicPlayer.Controllers
             return song;
         }
 
+        [HttpGet("{id}/listened")]
+        public async Task<ActionResult<Song>> ListenedSong(string id)
+        {
+            var song = await _context.Song.FindAsync(id);
+            if (song == null)
+            {
+                return NotFound();
+            }
+            song.Listens++;
+            _context.Entry(song).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!SongExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return song;
+        }
+
+        [HttpGet("{id}/downloaded")]
+        public async Task<ActionResult<Song>> DownloadedSong(string id)
+        {
+            var song = await _context.Song.FindAsync(id);
+            if (song == null)
+            {
+                return NotFound();
+            }
+            song.Downloads++;
+            _context.Entry(song).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!SongExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return song;
+        }
+
         // PUT: api/Songs/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.

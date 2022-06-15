@@ -20,6 +20,7 @@ namespace MusicPlayer.Servcies
         {
             var containerClient = GetContainerClient(blobContainerName);
             var blobClient = containerClient.GetBlobClient(fileName);
+            var props = blobClient.GetProperties();
             await blobClient.UploadAsync(content, new BlobHttpHeaders { ContentType = contentType });
             return blobClient.Uri;
         }
