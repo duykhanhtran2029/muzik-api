@@ -53,7 +53,21 @@ namespace MusicPlayer.Controllers
                 _context.Song
                 .Where(s => !s.IsDeleted)
                 .OrderByDescending(s => s.Downloads + s.Likes + s.Listens)
-                .OrderByDescending(s => s.ReleaseDate)
+                .ThenByDescending(s => s.ReleaseDate)
+                .Select(s => new SongDTO(s, s.ArtistSong.Select(a => a.Artist).ToList()))
+                .Take(5)
+                .ToListAsync();
+        }
+
+        // GET: api/Songs/search
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<SongDTO>>> SearchSongs([FromQuery] string searchKey)
+        {
+            return await
+                _context.Song
+                .Where(s => !s.IsDeleted && s.SongName.ToLower().Trim().Contains(searchKey))
+                .OrderByDescending(s => s.Downloads + s.Likes + s.Listens)
+                .ThenByDescending(s => s.ReleaseDate)
                 .Select(s => new SongDTO(s, s.ArtistSong.Select(a => a.Artist).ToList()))
                 .Take(5)
                 .ToListAsync();
