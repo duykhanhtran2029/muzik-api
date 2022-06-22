@@ -46,9 +46,8 @@ namespace DataProcessor
             }
             GenGenreSongInsertQueries();
             GenArtistSongInsertQueries();
-            GenUserInsertQueries();
-            GenHistoryInsertQueries();
-            //GenSongInsertQueries();
+            //GenUserInsertQueries();
+            //GenHistoryInsertQueries();
         }
 
         static void GenBaseInsertQueries(int index)
