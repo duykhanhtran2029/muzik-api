@@ -40,7 +40,8 @@ namespace DataProcessor
         {
             fullDataPath = Directory.GetCurrentDirectory().Replace(removedPath, dataPath);
             fullDataSqlPath = Directory.GetCurrentDirectory().Replace(removedPath, sqlDataPath);
-            for(int i = 0; i < 3; i++)
+            File.AppendAllText(fullDataSqlPath, "DELETE FROM [dbo].[Like]\nDELETE FROM [dbo].[PlaylistSong]\nDELETE FROM [dbo].[ArtistSong]\nDELETE FROM [dbo].[History]\nDELETE FROM [dbo].[GenreSong]\nDELETE FROM [dbo].[Playlist]\nDELETE FROM [dbo].[Genre]\nDELETE FROM [dbo].[Artist]\nDELETE FROM [dbo].[Song]\n");
+            for (int i = 0; i < 3; i++)
             {
                 GenBaseInsertQueries(i);
             }

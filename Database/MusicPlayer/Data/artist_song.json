@@ -32816,37 +32816,7 @@
                         "isDeleted" : false
                     }
                 ]
-            }, 
-            {
-                "_id" :"6247a520a64be208df9021c5", 
-                "ID" : 342, 
-                "Name" : "ZUIBCIE7", 
-                "Title" : "La La La (Originally Performed by Naughty Boy (Karaoke Version", 
-                "Artist" : "American Karaoke Tunes, Sam Smith", 
-                "Link" : "https://shazam.blob.core.windows.net/Songs/ZUIBCIE7.mp3", 
-                "LinkLyric" : "https://shazam.blob.core.windows.net/lyrics/ZUIBCIE7.lrc", 
-                "LinkBeat" : "https://shazam.blob.core.windows.net/beats/ZUIBCIE7.m4a", 
-                "Thumbnail" : "https://photo-resize-zmp3.zadn.vn/w240_r1x1_jpeg/cover/3/2/3/3/3233ef2eb68760537a8b9e0572da1d41.jpg", 
-                "IsDeleted" : false, 
-                "Like" : 35, 
-                "Duration" : 0, 
-                "Type" : 0, 
-                "ReleaseDate" : "1372698000", 
-                "Genres" : [
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z08O", 
-                        "name" : "Âu Mỹ", 
-                        "isDeleted" : false
-                    }, 
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z097", 
-                        "name" : "Pop", 
-                        "isDeleted" : false
-                    }
-                ]
-            }, 
+            },
             {
                 "_id" :"6247a910a64be208df9022ff", 
                 "ID" : 499, 

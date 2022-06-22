@@ -23,18 +23,18 @@ namespace Database.MusicPlayer.Models
         public virtual DbSet<ArtistSong> ArtistSong { get; set; }
         public virtual DbSet<Genre> Genre { get; set; }
         public virtual DbSet<GenreSong> GenreSong { get; set; }
+        public virtual DbSet<History> History { get; set; }
         public virtual DbSet<Like> Like { get; set; }
         public virtual DbSet<Playlist> Playlist { get; set; }
         public virtual DbSet<PlaylistSong> PlaylistSong { get; set; }
         public virtual DbSet<Song> Song { get; set; }
-        public virtual DbSet<User> User { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=TEDDY\\MSSQLSERVER3;Database=MUSICPLAYER;Trusted_Connection=True");
+                optionsBuilder.UseSqlServer("Server=(LocalDB)\\MSSQLLocalDB;Database=MUSICPLAYER;Trusted_Connection=True");
             }
         }
 
@@ -70,13 +70,13 @@ namespace Database.MusicPlayer.Models
                     .WithMany(p => p.ArtistSong)
                     .HasForeignKey(d => d.ArtistId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ArtistSon__Artis__38996AB5");
+                    .HasConstraintName("FK__ArtistSon__Artis__37A5467C");
 
                 entity.HasOne(d => d.Song)
                     .WithMany(p => p.ArtistSong)
                     .HasForeignKey(d => d.SongId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ArtistSon__SongI__398D8EEE");
+                    .HasConstraintName("FK__ArtistSon__SongI__38996AB5");
             });
 
             modelBuilder.Entity<Genre>(entity =>
@@ -107,13 +107,35 @@ namespace Database.MusicPlayer.Models
                     .WithMany(p => p.GenreSong)
                     .HasForeignKey(d => d.GenreId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__GenreSong__Genre__3A81B327");
+                    .HasConstraintName("FK__GenreSong__Genre__398D8EEE");
 
                 entity.HasOne(d => d.Song)
                     .WithMany(p => p.GenreSong)
                     .HasForeignKey(d => d.SongId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__GenreSong__SongI__3B75D760");
+                    .HasConstraintName("FK__GenreSong__SongI__3A81B327");
+            });
+
+            modelBuilder.Entity<History>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.SongId })
+                    .HasName("PK_UserSong_History");
+
+                entity.Property(e => e.UserId)
+                    .HasColumnName("UserID")
+                    .HasMaxLength(8)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SongId)
+                    .HasColumnName("SongID")
+                    .HasMaxLength(8)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Song)
+                    .WithMany(p => p.History)
+                    .HasForeignKey(d => d.SongId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__History__SongID__3E52440B");
             });
 
             modelBuilder.Entity<Like>(entity =>
@@ -135,13 +157,7 @@ namespace Database.MusicPlayer.Models
                     .WithMany(p => p.Like)
                     .HasForeignKey(d => d.SongId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Like__SongID__3C69FB99");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Like)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Like__UserID__3D5E1FD2");
+                    .HasConstraintName("FK__Like__SongID__3B75D760");
             });
 
             modelBuilder.Entity<Playlist>(entity =>
@@ -178,13 +194,13 @@ namespace Database.MusicPlayer.Models
                     .WithMany(p => p.PlaylistSong)
                     .HasForeignKey(d => d.PlaylistId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PlaylistS__Playl__3E52440B");
+                    .HasConstraintName("FK__PlaylistS__Playl__3C69FB99");
 
                 entity.HasOne(d => d.Song)
                     .WithMany(p => p.PlaylistSong)
                     .HasForeignKey(d => d.SongId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PlaylistS__SongI__3F466844");
+                    .HasConstraintName("FK__PlaylistS__SongI__3D5E1FD2");
             });
 
             modelBuilder.Entity<Song>(entity =>
@@ -205,37 +221,6 @@ namespace Database.MusicPlayer.Models
                 entity.Property(e => e.SongName).IsRequired();
 
                 entity.Property(e => e.Thumbnail).IsUnicode(false);
-            });
-
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.Property(e => e.UserId)
-                    .HasColumnName("UserID")
-                    .HasMaxLength(8)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Avatar)
-                    .IsRequired()
-                    .IsUnicode(false);
-
-                entity.Property(e => e.DateOfBirth).HasColumnType("smalldatetime");
-
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .IsUnicode(false);
-
-                entity.Property(e => e.FirstName).IsRequired();
-
-                entity.Property(e => e.LastName).IsRequired();
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Username)
-                    .IsRequired()
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
             });
 
             OnModelCreatingPartial(modelBuilder);
