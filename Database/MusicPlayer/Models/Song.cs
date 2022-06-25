@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
@@ -14,6 +13,7 @@ namespace Database.MusicPlayer.Models
         {
             ArtistSong = new HashSet<ArtistSong>();
             GenreSong = new HashSet<GenreSong>();
+            History = new HashSet<History>();
             Like = new HashSet<Like>();
             PlaylistSong = new HashSet<PlaylistSong>();
         }
@@ -32,13 +32,10 @@ namespace Database.MusicPlayer.Models
         public bool IsDeleted { get; set; }
         public bool IsRecognizable { get; set; }
 
-        [JsonIgnore]
         public virtual ICollection<ArtistSong> ArtistSong { get; set; }
-        [JsonIgnore]
         public virtual ICollection<GenreSong> GenreSong { get; set; }
-        [JsonIgnore]
+        public virtual ICollection<History> History { get; set; }
         public virtual ICollection<Like> Like { get; set; }
-        [JsonIgnore]
         public virtual ICollection<PlaylistSong> PlaylistSong { get; set; }
     }
 }

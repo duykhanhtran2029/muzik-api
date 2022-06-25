@@ -53,7 +53,21 @@ namespace MusicPlayer.Controllers
                 _context.Song
                 .Where(s => !s.IsDeleted)
                 .OrderByDescending(s => s.Downloads + s.Likes + s.Listens)
-                .OrderByDescending(s => s.ReleaseDate)
+                .ThenByDescending(s => s.ReleaseDate)
+                .Select(s => new SongDTO(s, s.ArtistSong.Select(a => a.Artist).ToList()))
+                .Take(5)
+                .ToListAsync();
+        }
+
+        // GET: api/Songs/search
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<SongDTO>>> SearchSongs([FromQuery] string searchKey)
+        {
+            return await
+                _context.Song
+                .Where(s => !s.IsDeleted && s.SongName.ToLower().Trim().Contains(searchKey))
+                .OrderByDescending(s => s.Downloads + s.Likes + s.Listens)
+                .ThenByDescending(s => s.ReleaseDate)
                 .Select(s => new SongDTO(s, s.ArtistSong.Select(a => a.Artist).ToList()))
                 .Take(5)
                 .ToListAsync();
@@ -68,6 +82,66 @@ namespace MusicPlayer.Controllers
             if (song == null)
             {
                 return NotFound();
+            }
+
+            return song;
+        }
+
+        [HttpGet("{id}/listened")]
+        public async Task<ActionResult<Song>> ListenedSong(string id)
+        {
+            var song = await _context.Song.FindAsync(id);
+            if (song == null)
+            {
+                return NotFound();
+            }
+            song.Listens++;
+            _context.Entry(song).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!SongExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return song;
+        }
+
+        [HttpGet("{id}/downloaded")]
+        public async Task<ActionResult<Song>> DownloadedSong(string id)
+        {
+            var song = await _context.Song.FindAsync(id);
+            if (song == null)
+            {
+                return NotFound();
+            }
+            song.Downloads++;
+            _context.Entry(song).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!SongExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
             return song;

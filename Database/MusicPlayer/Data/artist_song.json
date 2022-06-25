@@ -5240,36 +5240,6 @@
                         "isDeleted" : false
                     }
                 ]
-            }, 
-            {
-                "_id" :"6247b045a64be208df902521", 
-                "ID" : 772, 
-                "Name" : "ZWAE6CWE", 
-                "Title" : "Heartless", 
-                "Artist" : "Diplo, Morgan Wallen", 
-                "Link" : "https://shazam.blob.core.windows.net/Songs/ZWAE6CWE.mp3", 
-                "LinkLyric" : "https://shazam.blob.core.windows.net/lyrics/ZWAE6CWE.lrc", 
-                "LinkBeat" : "https://shazam.blob.core.windows.net/beats/ZWAE6CWE.m4a", 
-                "Thumbnail" : "https://photo-resize-zmp3.zadn.vn/w240_r1x1_jpeg/cover/1/6/4/d/164d9322ee858586c7011a278ca5e481.jpg", 
-                "IsDeleted" : false, 
-                "Like" : 671, 
-                "Duration" : 0, 
-                "Type" : 5, 
-                "ReleaseDate" : "1590685200", 
-                "Genres" : [
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z08O", 
-                        "name" : "Âu Mỹ", 
-                        "isDeleted" : false
-                    }, 
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z096", 
-                        "name" : "Country", 
-                        "isDeleted" : false
-                    }
-                ]
             }
         ]
     },
@@ -17616,42 +17586,6 @@
         ]
     },
     { 
-        "_id" :"624810dde533b78bafc989e6", 
-        "ArtistID" : "IW7W700W", 
-        "Songs" : [
-            {
-                "_id" :"6247a520a64be208df9021c5", 
-                "ID" : 342, 
-                "Name" : "ZUIBCIE7", 
-                "Title" : "La La La (Originally Performed by Naughty Boy (Karaoke Version", 
-                "Artist" : "American Karaoke Tunes, Sam Smith", 
-                "Link" : "https://shazam.blob.core.windows.net/Songs/ZUIBCIE7.mp3", 
-                "LinkLyric" : "https://shazam.blob.core.windows.net/lyrics/ZUIBCIE7.lrc", 
-                "LinkBeat" : "https://shazam.blob.core.windows.net/beats/ZUIBCIE7.m4a", 
-                "Thumbnail" : "https://photo-resize-zmp3.zadn.vn/w240_r1x1_jpeg/cover/3/2/3/3/3233ef2eb68760537a8b9e0572da1d41.jpg", 
-                "IsDeleted" : false, 
-                "Like" : 35, 
-                "Duration" : 0, 
-                "Type" : 0, 
-                "ReleaseDate" : "1372698000", 
-                "Genres" : [
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z08O", 
-                        "name" : "Âu Mỹ", 
-                        "isDeleted" : false
-                    }, 
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z097", 
-                        "name" : "Pop", 
-                        "isDeleted" : false
-                    }
-                ]
-            }
-        ]
-    },
-    { 
         "_id" :"624810dde533b78bafc989e8", 
         "ArtistID" : "IW7ZAAFD", 
         "Songs" : [
@@ -29078,36 +29012,6 @@
                         "isDeleted" : false
                     }
                 ]
-            }, 
-            {
-                "_id" :"6247b045a64be208df902521", 
-                "ID" : 772, 
-                "Name" : "ZWAE6CWE", 
-                "Title" : "Heartless", 
-                "Artist" : "Diplo, Morgan Wallen", 
-                "Link" : "https://shazam.blob.core.windows.net/Songs/ZWAE6CWE.mp3", 
-                "LinkLyric" : "https://shazam.blob.core.windows.net/lyrics/ZWAE6CWE.lrc", 
-                "LinkBeat" : "https://shazam.blob.core.windows.net/beats/ZWAE6CWE.m4a", 
-                "Thumbnail" : "https://photo-resize-zmp3.zadn.vn/w240_r1x1_jpeg/cover/1/6/4/d/164d9322ee858586c7011a278ca5e481.jpg", 
-                "IsDeleted" : false, 
-                "Like" : 671, 
-                "Duration" : 0, 
-                "Type" : 5, 
-                "ReleaseDate" : "1590685200", 
-                "Genres" : [
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z08O", 
-                        "name" : "Âu Mỹ", 
-                        "isDeleted" : false
-                    }, 
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z096", 
-                        "name" : "Country", 
-                        "isDeleted" : false
-                    }
-                ]
             }
         ]
     },
@@ -31130,36 +31034,6 @@
                         "isDeleted" : false
                     }
                 ]
-            }, 
-            {
-                "_id" :"6247a8f3a64be208df9022f7", 
-                "ID" : 495, 
-                "Name" : "ZW70B7E9", 
-                "Title" : "Lean On", 
-                "Artist" : "Major Lazer, DJ Snake, MØ", 
-                "Link" : "https://shazam.blob.core.windows.net/Songs/ZW70B7E9.mp3", 
-                "LinkLyric" : "https://shazam.blob.core.windows.net/lyrics/ZW70B7E9.lrc", 
-                "LinkBeat" : "https://shazam.blob.core.windows.net/beats/ZW70B7E9.m4a", 
-                "Thumbnail" : "https://photo-resize-zmp3.zadn.vn/w240_r1x1_jpeg/cover/5/4/1/8/5418a28063740a086c48a09d5f9d6e53.jpg", 
-                "IsDeleted" : false, 
-                "Like" : 79873, 
-                "Duration" : 0, 
-                "Type" : 1, 
-                "ReleaseDate" : "1554397200", 
-                "Genres" : [
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z08O", 
-                        "name" : "Âu Mỹ", 
-                        "isDeleted" : false
-                    }, 
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z09A", 
-                        "name" : "Electronic / Dance", 
-                        "isDeleted" : false
-                    }
-                ]
             }
         ]
     },
@@ -31536,36 +31410,6 @@
                 "Duration" : 0, 
                 "Type" : 1, 
                 "ReleaseDate" : "0", 
-                "Genres" : [
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z08O", 
-                        "name" : "Âu Mỹ", 
-                        "isDeleted" : false
-                    }, 
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z09A", 
-                        "name" : "Electronic / Dance", 
-                        "isDeleted" : false
-                    }
-                ]
-            }, 
-            {
-                "_id" :"6247a8f3a64be208df9022f7", 
-                "ID" : 495, 
-                "Name" : "ZW70B7E9", 
-                "Title" : "Lean On", 
-                "Artist" : "Major Lazer, DJ Snake, MØ", 
-                "Link" : "https://shazam.blob.core.windows.net/Songs/ZW70B7E9.mp3", 
-                "LinkLyric" : "https://shazam.blob.core.windows.net/lyrics/ZW70B7E9.lrc", 
-                "LinkBeat" : "https://shazam.blob.core.windows.net/beats/ZW70B7E9.m4a", 
-                "Thumbnail" : "https://photo-resize-zmp3.zadn.vn/w240_r1x1_jpeg/cover/5/4/1/8/5418a28063740a086c48a09d5f9d6e53.jpg", 
-                "IsDeleted" : false, 
-                "Like" : 79873, 
-                "Duration" : 0, 
-                "Type" : 1, 
-                "ReleaseDate" : "1554397200", 
                 "Genres" : [
                     {
                         "_id" :"000000000000000000000000", 
@@ -32972,37 +32816,7 @@
                         "isDeleted" : false
                     }
                 ]
-            }, 
-            {
-                "_id" :"6247a520a64be208df9021c5", 
-                "ID" : 342, 
-                "Name" : "ZUIBCIE7", 
-                "Title" : "La La La (Originally Performed by Naughty Boy (Karaoke Version", 
-                "Artist" : "American Karaoke Tunes, Sam Smith", 
-                "Link" : "https://shazam.blob.core.windows.net/Songs/ZUIBCIE7.mp3", 
-                "LinkLyric" : "https://shazam.blob.core.windows.net/lyrics/ZUIBCIE7.lrc", 
-                "LinkBeat" : "https://shazam.blob.core.windows.net/beats/ZUIBCIE7.m4a", 
-                "Thumbnail" : "https://photo-resize-zmp3.zadn.vn/w240_r1x1_jpeg/cover/3/2/3/3/3233ef2eb68760537a8b9e0572da1d41.jpg", 
-                "IsDeleted" : false, 
-                "Like" : 35, 
-                "Duration" : 0, 
-                "Type" : 0, 
-                "ReleaseDate" : "1372698000", 
-                "Genres" : [
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z08O", 
-                        "name" : "Âu Mỹ", 
-                        "isDeleted" : false
-                    }, 
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z097", 
-                        "name" : "Pop", 
-                        "isDeleted" : false
-                    }
-                ]
-            }, 
+            },
             {
                 "_id" :"6247a910a64be208df9022ff", 
                 "ID" : 499, 
@@ -33983,36 +33797,6 @@
                         "_id" :"000000000000000000000000", 
                         "id" : "IWZ9Z08O", 
                         "name" : "Âu Mỹ", 
-                        "isDeleted" : false
-                    }
-                ]
-            }, 
-            {
-                "_id" :"6247adc2a64be208df902457", 
-                "ID" : 671, 
-                "Name" : "ZW9EZ0IO", 
-                "Title" : "Promises (Mousse T.'s Disco Shizzle Remix", 
-                "Artist" : "Calvin Harris, Sam Smith", 
-                "Link" : "https://shazam.blob.core.windows.net/Songs/ZW9EZ0IO.mp3", 
-                "LinkLyric" : "https://shazam.blob.core.windows.net/lyrics/ZW9EZ0IO.lrc", 
-                "LinkBeat" : "https://shazam.blob.core.windows.net/beats/ZW9EZ0IO.m4a", 
-                "Thumbnail" : "https://photo-resize-zmp3.zadn.vn/w240_r1x1_jpeg/cover/3/4/1/5/34153e805ec461edd2f5099f72bbaf3f.jpg", 
-                "IsDeleted" : false, 
-                "Like" : 47, 
-                "Duration" : 0, 
-                "Type" : 1, 
-                "ReleaseDate" : "0", 
-                "Genres" : [
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z08O", 
-                        "name" : "Âu Mỹ", 
-                        "isDeleted" : false
-                    }, 
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z09A", 
-                        "name" : "Electronic / Dance", 
                         "isDeleted" : false
                     }
                 ]
@@ -35684,36 +35468,6 @@
                         "isDeleted" : false
                     }
                 ]
-            }, 
-            {
-                "_id" :"6247aec7a64be208df9024a9", 
-                "ID" : 712, 
-                "Name" : "ZWAC9A9A", 
-                "Title" : "Don't Worry Bout Me", 
-                "Artist" : "Zara Larsson", 
-                "Link" : "https://shazam.blob.core.windows.net/Songs/ZWAC9A9A.mp3", 
-                "LinkLyric" : "https://shazam.blob.core.windows.net/lyrics/ZWAC9A9A.lrc", 
-                "LinkBeat" : "https://shazam.blob.core.windows.net/beats/ZWAC9A9A.m4a", 
-                "Thumbnail" : "https://photo-resize-zmp3.zadn.vn/w240_r1x1_jpeg/cover/2/1/b/c/21bce6ac9a19060fef2f2e446ac14032.jpg", 
-                "IsDeleted" : false, 
-                "Like" : 598, 
-                "Duration" : 0, 
-                "Type" : 0, 
-                "ReleaseDate" : "1553720400", 
-                "Genres" : [
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z08O", 
-                        "name" : "Âu Mỹ", 
-                        "isDeleted" : false
-                    }, 
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z097", 
-                        "name" : "Pop", 
-                        "isDeleted" : false
-                    }
-                ]
             }
         ]
     },
@@ -36140,37 +35894,7 @@
                         "isDeleted" : false
                     }
                 ]
-            }, 
-            {
-                "_id" :"6247a8f3a64be208df9022f7", 
-                "ID" : 495, 
-                "Name" : "ZW70B7E9", 
-                "Title" : "Lean On", 
-                "Artist" : "Major Lazer, DJ Snake, MØ", 
-                "Link" : "https://shazam.blob.core.windows.net/Songs/ZW70B7E9.mp3", 
-                "LinkLyric" : "https://shazam.blob.core.windows.net/lyrics/ZW70B7E9.lrc", 
-                "LinkBeat" : "https://shazam.blob.core.windows.net/beats/ZW70B7E9.m4a", 
-                "Thumbnail" : "https://photo-resize-zmp3.zadn.vn/w240_r1x1_jpeg/cover/5/4/1/8/5418a28063740a086c48a09d5f9d6e53.jpg", 
-                "IsDeleted" : false, 
-                "Like" : 79873, 
-                "Duration" : 0, 
-                "Type" : 1, 
-                "ReleaseDate" : "1554397200", 
-                "Genres" : [
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z08O", 
-                        "name" : "Âu Mỹ", 
-                        "isDeleted" : false
-                    }, 
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z09A", 
-                        "name" : "Electronic / Dance", 
-                        "isDeleted" : false
-                    }
-                ]
-            }, 
+            },
             {
                 "_id" :"6247ad54a64be208df902439", 
                 "ID" : 656, 
@@ -41036,30 +40760,6 @@
                         "isDeleted" : false
                     }
                 ]
-            }, 
-            {
-                "_id" :"6247b5f0a64be208df9026e3", 
-                "ID" : 997, 
-                "Name" : "ZWZEB0C7", 
-                "Title" : "Tìm Lại Bầu Trời", 
-                "Artist" : "Tuấn Hưng", 
-                "Link" : "https://shazam.blob.core.windows.net/Songs/ZWZEB0C7.mp3", 
-                "LinkLyric" : "https://shazam.blob.core.windows.net/lyrics/ZWZEB0C7.lrc", 
-                "LinkBeat" : "https://shazam.blob.core.windows.net/beats/ZWZEB0C7.m4a", 
-                "Thumbnail" : "https://photo-resize-zmp3.zadn.vn/w240_r1x1_jpeg/avatars/4/d/4d870627ce2f41a989ba676e0a313597_1427689508.jpg", 
-                "IsDeleted" : false, 
-                "Like" : 3036403, 
-                "Duration" : 0, 
-                "Type" : 29, 
-                "ReleaseDate" : "0", 
-                "Genres" : [
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z08I", 
-                        "name" : "Việt Nam", 
-                        "isDeleted" : false
-                    }
-                ]
             }
         ]
     },
@@ -41757,42 +41457,6 @@
         "_id" :"624810dfe533b78bafc98c0c", 
         "ArtistID" : "IWZ9ZOI8", 
         "Songs" : [
-            {
-                "_id" :"6247b2faa64be208df9025fb", 
-                "ID" : 881, 
-                "Name" : "ZWBI77C6", 
-                "Title" : "The Other Side", 
-                "Artist" : "SZA, Justin Timberlake", 
-                "Link" : "https://shazam.blob.core.windows.net/Songs/ZWBI77C6.mp3", 
-                "LinkLyric" : "https://shazam.blob.core.windows.net/lyrics/ZWBI77C6.lrc", 
-                "LinkBeat" : "https://shazam.blob.core.windows.net/beats/ZWBI77C6.m4a", 
-                "Thumbnail" : "https://photo-resize-zmp3.zadn.vn/w240_r1x1_jpeg/cover/d/1/5/e/d15e49755613888e3640f583eee198b5.jpg", 
-                "IsDeleted" : false, 
-                "Like" : 3405, 
-                "Duration" : 0, 
-                "Type" : 34, 
-                "ReleaseDate" : "1582650000", 
-                "Genres" : [
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z08O", 
-                        "name" : "Âu Mỹ", 
-                        "isDeleted" : false
-                    }, 
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z097", 
-                        "name" : "Pop", 
-                        "isDeleted" : false
-                    }, 
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z0EC", 
-                        "name" : "Nhạc Phim", 
-                        "isDeleted" : false
-                    }
-                ]
-            }, 
             {
                 "_id" :"6247b346a64be208df902613", 
                 "ID" : 893, 
@@ -43470,36 +43134,6 @@
                 "Duration" : 0, 
                 "Type" : 1, 
                 "ReleaseDate" : "1539882000", 
-                "Genres" : [
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z08O", 
-                        "name" : "Âu Mỹ", 
-                        "isDeleted" : false
-                    }, 
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z09A", 
-                        "name" : "Electronic / Dance", 
-                        "isDeleted" : false
-                    }
-                ]
-            }, 
-            {
-                "_id" :"6247adc2a64be208df902457", 
-                "ID" : 671, 
-                "Name" : "ZW9EZ0IO", 
-                "Title" : "Promises (Mousse T.'s Disco Shizzle Remix", 
-                "Artist" : "Calvin Harris, Sam Smith", 
-                "Link" : "https://shazam.blob.core.windows.net/Songs/ZW9EZ0IO.mp3", 
-                "LinkLyric" : "https://shazam.blob.core.windows.net/lyrics/ZW9EZ0IO.lrc", 
-                "LinkBeat" : "https://shazam.blob.core.windows.net/beats/ZW9EZ0IO.m4a", 
-                "Thumbnail" : "https://photo-resize-zmp3.zadn.vn/w240_r1x1_jpeg/cover/3/4/1/5/34153e805ec461edd2f5099f72bbaf3f.jpg", 
-                "IsDeleted" : false, 
-                "Like" : 47, 
-                "Duration" : 0, 
-                "Type" : 1, 
-                "ReleaseDate" : "0", 
                 "Genres" : [
                     {
                         "_id" :"000000000000000000000000", 
@@ -46356,36 +45990,6 @@
                 "Duration" : 0, 
                 "Type" : 1, 
                 "ReleaseDate" : "1550768400", 
-                "Genres" : [
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z08O", 
-                        "name" : "Âu Mỹ", 
-                        "isDeleted" : false
-                    }, 
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z09A", 
-                        "name" : "Electronic / Dance", 
-                        "isDeleted" : false
-                    }
-                ]
-            }, 
-            {
-                "_id" :"62479ff6a64be208df902015", 
-                "ID" : 126, 
-                "Name" : "ZOF7U99B", 
-                "Title" : "Play", 
-                "Artist" : "Nhiều nghệ sĩ", 
-                "Link" : "https://shazam.blob.core.windows.net/Songs/ZOF7U99B.mp3", 
-                "LinkLyric" : "https://shazam.blob.core.windows.net/lyrics/ZOF7U99B.lrc", 
-                "LinkBeat" : "https://shazam.blob.core.windows.net/beats/ZOF7U99B.m4a", 
-                "Thumbnail" : "https://photo-resize-zmp3.zadn.vn/w240_r1x1_jpeg/cover/9/e/d/0/9ed09ed76be75438047f47ee536f0b4f.jpg", 
-                "IsDeleted" : false, 
-                "Like" : 3962, 
-                "Duration" : 0, 
-                "Type" : 1, 
-                "ReleaseDate" : "1567098000", 
                 "Genres" : [
                     {
                         "_id" :"000000000000000000000000", 
@@ -49688,37 +49292,7 @@
                         "isDeleted" : false
                     }
                 ]
-            }, 
-            {
-                "_id" :"62479ff6a64be208df902015", 
-                "ID" : 126, 
-                "Name" : "ZOF7U99B", 
-                "Title" : "Play", 
-                "Artist" : "Nhiều nghệ sĩ", 
-                "Link" : "https://shazam.blob.core.windows.net/Songs/ZOF7U99B.mp3", 
-                "LinkLyric" : "https://shazam.blob.core.windows.net/lyrics/ZOF7U99B.lrc", 
-                "LinkBeat" : "https://shazam.blob.core.windows.net/beats/ZOF7U99B.m4a", 
-                "Thumbnail" : "https://photo-resize-zmp3.zadn.vn/w240_r1x1_jpeg/cover/9/e/d/0/9ed09ed76be75438047f47ee536f0b4f.jpg", 
-                "IsDeleted" : false, 
-                "Like" : 3962, 
-                "Duration" : 0, 
-                "Type" : 1, 
-                "ReleaseDate" : "1567098000", 
-                "Genres" : [
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z08O", 
-                        "name" : "Âu Mỹ", 
-                        "isDeleted" : false
-                    }, 
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z09A", 
-                        "name" : "Electronic / Dance", 
-                        "isDeleted" : false
-                    }
-                ]
-            }, 
+            },
             {
                 "_id" :"6247b362a64be208df90261b", 
                 "ID" : 897, 
@@ -55454,43 +55028,7 @@
                         "isDeleted" : false
                     }
                 ]
-            }, 
-            {
-                "_id" :"6247b2faa64be208df9025fb", 
-                "ID" : 881, 
-                "Name" : "ZWBI77C6", 
-                "Title" : "The Other Side", 
-                "Artist" : "SZA, Justin Timberlake", 
-                "Link" : "https://shazam.blob.core.windows.net/Songs/ZWBI77C6.mp3", 
-                "LinkLyric" : "https://shazam.blob.core.windows.net/lyrics/ZWBI77C6.lrc", 
-                "LinkBeat" : "https://shazam.blob.core.windows.net/beats/ZWBI77C6.m4a", 
-                "Thumbnail" : "https://photo-resize-zmp3.zadn.vn/w240_r1x1_jpeg/cover/d/1/5/e/d15e49755613888e3640f583eee198b5.jpg", 
-                "IsDeleted" : false, 
-                "Like" : 3405, 
-                "Duration" : 0, 
-                "Type" : 34, 
-                "ReleaseDate" : "1582650000", 
-                "Genres" : [
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z08O", 
-                        "name" : "Âu Mỹ", 
-                        "isDeleted" : false
-                    }, 
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z097", 
-                        "name" : "Pop", 
-                        "isDeleted" : false
-                    }, 
-                    {
-                        "_id" :"000000000000000000000000", 
-                        "id" : "IWZ9Z0EC", 
-                        "name" : "Nhạc Phim", 
-                        "isDeleted" : false
-                    }
-                ]
-            }, 
+            },
             {
                 "_id" :"6247affda64be208df90250b", 
                 "ID" : 761, 

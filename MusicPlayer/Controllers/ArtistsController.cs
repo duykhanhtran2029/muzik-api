@@ -37,8 +37,7 @@ namespace MusicPlayer.Controllers
         {
             return await _context.Artist
                 .Where(artist => !artist.IsDeleted)
-                .OrderByDescending(a => a.ArtistSong.Sum(
-                                    artistSong => artistSong.Song.Listens + artistSong.Song.Downloads + artistSong.Song.Likes))
+                .OrderByDescending(a => a.ArtistSong.Sum(artistSong => artistSong.Song.Listens + artistSong.Song.Downloads + artistSong.Song.Likes))
                 .Take(10)
                 .ToListAsync();
         }
@@ -62,6 +61,19 @@ namespace MusicPlayer.Controllers
                 return NoContent();
             }
             return songs;
+        }
+
+        // GET: api/Songs/search
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<ArtistDTO>>> SearchArtists([FromQuery] string searchKey)
+        {
+            return await
+                _context.Artist
+                .Where(a => !a.IsDeleted && a.ArtistName.Contains(searchKey))
+                .OrderByDescending(a => a.ArtistSong.Sum(artistSong => artistSong.Song.Listens + artistSong.Song.Downloads + artistSong.Song.Likes))
+                .Select(a => new ArtistDTO(a, a.ArtistSong.Select(ars => ars.Song).ToList()))
+                .Take(5)
+                .ToListAsync();
         }
 
         // GET: api/Artists/5

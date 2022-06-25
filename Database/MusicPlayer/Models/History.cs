@@ -7,10 +7,11 @@ using System.Collections.Generic;
 
 namespace Database.MusicPlayer.Models
 {
-    public partial class Like
+    public partial class History
     {
         public string UserId { get; set; }
         public string SongId { get; set; }
+        public int Count { get; set; }
 
         public virtual Song Song { get; set; }
     }
