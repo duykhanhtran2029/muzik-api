@@ -122,15 +122,9 @@ namespace MusicPlayer.Controllers
 
         // GET: api/Playlists/userID/id
         [HttpGet("userID/{id}")]
-        public async Task<ActionResult<IEnumerable<Playlist>>> GetSongsByArtistId(string id)
+        public async Task<ActionResult<IEnumerable<Playlist>>> GetSongsByUserId(string id)
         {
-            var user = await _context.User.FindAsync(id);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
+            
             var playlists = await _context.Playlist
                 .Where(playlist => playlist.UserId == id)
                 .Select(playlist => playlist)

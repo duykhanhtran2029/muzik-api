@@ -19,8 +19,8 @@ check on .../doc/readme_setup.md
 
 - If a database named *MUSICPLAYER* has not been created, run:
 
-> sqlcmd -S "(localdb)\MSSQLLocalDB" -E -Q "CREATE DATABASE MUSICPLAYER"
+> sqlcmd -S "TEDDY\MSSQLSERVER3" -E -Q "CREATE DATABASE MUSICPLAYER"
 
 - Navigate to {project_root_directory}\Database\MusicPlayer\Scripts
 
-> sqlcmd -S "(localdb)\MSSQLLocalDB" -E -d MUSICPLAYER -i runscript.sql -v FilePath="." ENV="local"
+> sqlcmd -S "TEDDY\MSSQLSERVER3" -E -d MUSICPLAYER -i runscript.sql -v FilePath="." ENV="local"
