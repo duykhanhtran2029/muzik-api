@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Database.MusicPlayer.Models;
+using MusicPlayer.Controllers.DTO;
 
 namespace MusicPlayer.Controllers
 {
@@ -29,16 +30,26 @@ namespace MusicPlayer.Controllers
 
         // GET: api/PlaylistSongs/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<PlaylistSong>> GetPlaylistSong(string id)
+        public async Task<ActionResult<IEnumerable<SongDTO>>> GetPlaylistSong(string id)
         {
-            var playlistSong = await _context.PlaylistSong.FindAsync(id);
+            var playlist = await _context.Playlist.FindAsync(id);
 
-            if (playlistSong == null)
+            if (playlist == null)
             {
                 return NotFound();
             }
 
-            return playlistSong;
+            var songs = await _context.PlaylistSong
+               .Where(playlistSong => playlistSong.PlaylistId == id)
+               .Select(playlistSong => new SongDTO(playlistSong.Song, (playlistSong.Song.ArtistSong.Select(a => a.Artist).ToList()))).ToListAsync();
+
+            if (!songs.Any())
+            {
+                return NoContent();
+            }
+
+            return songs;
+
         }
 
         // PUT: api/PlaylistSongs/5
@@ -79,7 +90,7 @@ namespace MusicPlayer.Controllers
         [HttpPost]
         public async Task<ActionResult<PlaylistSong>> PostPlaylistSong(PlaylistSong playlistSong)
         {
-            _context.PlaylistSong.Add(playlistSong);
+            //_context.PlaylistSong.Add(playlistSong);
             try
             {
                 await _context.SaveChangesAsync();
@@ -119,5 +130,9 @@ namespace MusicPlayer.Controllers
         {
             return _context.PlaylistSong.Any(e => e.PlaylistId == id);
         }
+
+
+
+     
     }
 }

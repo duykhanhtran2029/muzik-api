@@ -23,7 +23,7 @@ namespace MusicPlayer.MusicPlayer.Models
         public string Avatar { get; set; }
         public string Email { get; set; }
         public DateTime? DateOfBirth { get; set; }
-        public bool? IsDeleted { get; set; }
+        public bool IsDeleted { get; set; }
 
         public virtual ICollection<History> History { get; set; }
         public virtual ICollection<Like> Like { get; set; }

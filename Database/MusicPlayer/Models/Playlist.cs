@@ -18,6 +18,9 @@ namespace Database.MusicPlayer.Models
         public string PlaylistId { get; set; }
         public string PlaylistName { get; set; }
         public string UserId { get; set; }
+        public string Thumbnail { get; set; }
+        public string SortDescription { get; set; }
+        public bool IsPrivate { get; set; }
         public bool IsDeleted { get; set; }
         [JsonIgnore]
         public virtual ICollection<PlaylistSong> PlaylistSong { get; set; }

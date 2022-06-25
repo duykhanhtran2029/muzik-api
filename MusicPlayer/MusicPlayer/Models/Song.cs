@@ -20,9 +20,7 @@ namespace MusicPlayer.MusicPlayer.Models
 
         public string SongId { get; set; }
         public string SongName { get; set; }
-        public string ThumbnailS { get; set; }
-        public string ThumbnailM { get; set; }
-        public string ThumbnailL { get; set; }
+        public string Thumbnail { get; set; }
         public string Link { get; set; }
         public string LinkBeat { get; set; }
         public string LinkLyric { get; set; }
@@ -31,8 +29,8 @@ namespace MusicPlayer.MusicPlayer.Models
         public int? Likes { get; set; }
         public int? Downloads { get; set; }
         public int? Listens { get; set; }
-        public bool? IsDeleted { get; set; }
-        public bool? IsRecognizable { get; set; }
+        public bool IsDeleted { get; set; }
+        public bool IsRecognizable { get; set; }
 
         public virtual ICollection<ArtistSong> ArtistSong { get; set; }
         public virtual ICollection<GenreSong> GenreSong { get; set; }

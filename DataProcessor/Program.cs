@@ -17,14 +17,16 @@ namespace DataProcessor
         AlbumSong = 6,
         AlbumArtist = 7,
         User = 8,
-        History = 9
+        History = 9,
+        Playlist = 10,
+        PlaylistSong = 11,
     }
     class Program
     {
         static private readonly string removedPath = @"DataProcessor\bin\Debug\netcoreapp3.1";
         static private readonly string dataPath = @"Database\MusicPlayer\Data";
         static private readonly string sqlDataPath = @"Database\MusicPlayer\Scripts\DatabaseData.sql";
-        static private readonly string[] tables = { "Genre", "Artist", "Song", "GenreSong", "ArtistSong", "User", "History"};
+        static private readonly string[] tables = { "Genre", "Artist", "Song", "GenreSong", "ArtistSong", "User", "History", "Playlist", "PlaylistSong"};
         static private readonly string[] queryPatterns = {
             "INSERT [dbo].[{0}] ([{0}ID], [GenreName], [IsDeleted]) VALUES (N\'{1}\', N\'{2}\', 0);",
             "INSERT [dbo].[{0}] ([{0}ID], [ArtistName], [Thumbnail], [IsDeleted]) VALUES (N\'{1}\', N\'{2}\', N\'{3}\', 0)",
@@ -33,6 +35,8 @@ namespace DataProcessor
             "INSERT [dbo].[{0}] ([ArtistID], [SongID]) VALUES (N\'{1}\', N\'{2}\');",
             "INSERT [dbo].[{0}] ([{0}ID], [FirstName], [LastName], [{0}Name], [Password], [Avatar], [Email], [DateOfBirth], [IsDeleted]) VALUES (N\'{1}\', N\'{2}\', N\'{3}\', N\'{4}\', N\'{5}\', N\'{6}\', N\'{7}\', N\'{8}\', 0)",
             "INSERT [dbo].[{0}] ([UserID], [SongID], [Count]) VALUES (N\'{1}\', N\'{2}\', N\'{3}\');",
+            "INSERT [dbo].[{0}] ([{0}ID], [PlaylistName], [UserID], [Thumbnail], [SortDescription], [IsPrivate], [IsDeleted]) VALUES (N\'{1}\', N\'{2}\', N\'{3}\', N\'{4}\', N\'{5}\', N\'{6}\', 0);",
+            "INSERT [dbo].[{0}] ([PlaylistID], [SongID]) VALUES (N\'{1}\', N\'{2}\');",
         };
         static private string fullDataPath;
         static private string fullDataSqlPath;
@@ -48,6 +52,8 @@ namespace DataProcessor
             GenArtistSongInsertQueries();
             GenUserInsertQueries();
             GenHistoryInsertQueries();
+            GenPlaylistInsertQueries();
+            GenPlaylistSongInsertQueries();
             //GenSongInsertQueries();
         }
 
@@ -149,5 +155,38 @@ namespace DataProcessor
             }
             File.AppendAllText(fullDataSqlPath, "\n" + Environment.NewLine);
         }
+
+        static void GenPlaylistInsertQueries()
+        {
+            File.AppendAllText(fullDataSqlPath, $"/****** Object:  Table [dbo].[Playlist]    Script Date: {DateTime.Now} ******/\n" + Environment.NewLine);
+            JToken list = JToken.Parse(File.ReadAllText(fullDataPath + "\\" + "playlist.json"));
+
+            foreach (var item in list)
+            {
+                string row = "";
+                row = string.Format(queryPatterns[7], tables[7], item["ID"], item["Title"], item["UserID"], item["Thumbnail"], item["SortDescription"],
+                     item["IsPrivate"]);
+                File.AppendAllText(fullDataSqlPath, row + Environment.NewLine);
+            }
+            File.AppendAllText(fullDataSqlPath, "\n" + Environment.NewLine);
+        }
+
+        static void GenPlaylistSongInsertQueries()
+        {
+            File.AppendAllText(fullDataSqlPath, $"/****** Object:  Table [dbo].[PlaylistSong]    Script Date: {DateTime.Now} ******/\n" + Environment.NewLine);
+            JToken list = JToken.Parse(File.ReadAllText(fullDataPath + "\\" + "playlist_song.json"));
+
+            foreach (var item in list)
+            {
+                string row = "";
+                foreach (var song in item["Songs"])
+                {
+                    row = string.Format(queryPatterns[8], tables[8], item["PlaylistID"], song["Name"]);
+                    File.AppendAllText(fullDataSqlPath, row + Environment.NewLine);
+                }
+            }
+            File.AppendAllText(fullDataSqlPath, "\n" + Environment.NewLine);
+        }
+        
     }
 }
