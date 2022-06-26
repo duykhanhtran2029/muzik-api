@@ -88,9 +88,9 @@ namespace MusicPlayer.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<PlaylistSong>> PostPlaylistSong(PlaylistSong playlistSong)
+        public async Task<ActionResult<IEnumerable<SongDTO>>> PostPlaylistSong([FromBody] PlaylistSong playlistSong)
         {
-            //_context.PlaylistSong.Add(playlistSong);
+            _context.PlaylistSong.Add(playlistSong);
             try
             {
                 await _context.SaveChangesAsync();
@@ -107,7 +107,16 @@ namespace MusicPlayer.Controllers
                 }
             }
 
-            return CreatedAtAction("GetPlaylistSong", new { id = playlistSong.PlaylistId }, playlistSong);
+            var songs = await _context.PlaylistSong
+             .Where(_playlistSong => _playlistSong.PlaylistId == playlistSong.PlaylistId)
+             .Select(playlistSong => new SongDTO(playlistSong.Song, (playlistSong.Song.ArtistSong.Select(a => a.Artist).ToList()))).ToListAsync();
+
+            if (!songs.Any())
+            {
+                return NoContent();
+            }
+
+            return songs;
         }
 
         // DELETE: api/PlaylistSongs/5
