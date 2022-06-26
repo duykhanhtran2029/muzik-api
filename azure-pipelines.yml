@@ -13,6 +13,11 @@ trigger:
       - MusicPlayer/*
       - CoreLib/*
       - Database/MusicPlayer/*
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
 stages:
 - stage: build_artifact
   displayName: Build artifact
@@ -20,12 +25,6 @@ stages:
     vmImage: 'windows-2019'
   jobs:
   - job: Build
-
-  variables:
-    solution: '**/*.sln'
-    buildPlatform: 'Any CPU'
-    buildConfiguration: 'Release'
-
     steps:
       - task: NuGetToolInstaller@1
       - task: UseDotNet@2
