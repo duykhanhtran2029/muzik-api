@@ -4,33 +4,55 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- main
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - azure-pipelines.yml
+      - MusicPlayer/*
+      - CoreLib/*
+      - Database/MusicPlayer/*
+stages:
+- stage: build_artifact
+  displayName: Build artifact
+  pool:
+    vmImage: 'windows-2019'
+  jobs:
+  - job: Build
 
-pool:
-  vmImage: 'windows-latest'
+  variables:
+    solution: '**/*.sln'
+    buildPlatform: 'Any CPU'
+    buildConfiguration: 'Release'
 
-variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+    steps:
+      - task: NuGetToolInstaller@1
+      - task: UseDotNet@2
+        displayName: 'Use .NET Core SDK 3.1'
+        inputs:
+          version: 3.1.x
 
-steps:
-- task: NuGetToolInstaller@1
+      - task: DotNetCoreCLI@2
+        displayName: 'Build'
+        inputs:
+          command: build
+          projects: '**/MusicPlayer/*.csproj'
+          arguments: '--configuration $(buildConfiguration)'
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+      - task: DotNetCoreCLI@2
+        displayName: 'Create Publish Build'
+        inputs:
+          command: publish
+          publishWebProjects: false
+          projects: '**/MusicPlayer/*.csproj'
+          arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)'
+          zipAfterPublish: false
+          modifyOutputPath: false
 
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
-
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet publish $(buildConfiguration)'
-  inputs:
-    command: publish
-    publishWebProjects: True
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: True
-
-- task: PublishBuildArtifacts@1
-  displayName: 'publish artifacts'
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifacts'
+        inputs:
+          PathtoPublish: '$(build.artifactstagingdirectory)'
+          ArtifactName: 'music-api-drop'
+        condition: succeededOrFailed()
