@@ -87,7 +87,7 @@ namespace MusicPlayer.Controllers
             return song;
         }
 
-        [HttpGet("{id}/listened")]
+        [HttpPut("{id}/listened")]
         public async Task<ActionResult<Song>> ListenedSong(string id)
         {
             var song = await _context.Song.FindAsync(id);
@@ -117,7 +117,7 @@ namespace MusicPlayer.Controllers
             return song;
         }
 
-        [HttpGet("{id}/downloaded")]
+        [HttpPut("{id}/downloaded")]
         public async Task<ActionResult<Song>> DownloadedSong(string id)
         {
             var song = await _context.Song.FindAsync(id);
@@ -126,6 +126,37 @@ namespace MusicPlayer.Controllers
                 return NotFound();
             }
             song.Downloads++;
+            _context.Entry(song).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!SongExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return song;
+        }
+
+
+        [HttpPut("{id}/recognizen")]
+        public async Task<ActionResult<Song>> RecognizenSong(string id)
+        {
+            var song = await _context.Song.FindAsync(id);
+            if (song == null)
+            {
+                return NotFound();
+            }
+            song.IsRecognizable = true;
             _context.Entry(song).State = EntityState.Modified;
 
             try

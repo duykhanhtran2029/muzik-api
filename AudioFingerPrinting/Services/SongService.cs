@@ -25,6 +25,9 @@ namespace AudioFingerPrinting.Servcies
         public async Task<List<RecognizableSong>> GetAsync() =>
             await _songs.Find(song => true).ToListAsync();
 
+        public async Task<RecognizableSong> GetSongByNameAsync(string Name) => 
+            await _songs.Find(song => song.Name == Name).FirstOrDefaultAsync();
+
         public async Task<RecognizableSong> GetAsync(uint id) =>
             await _songs.Find(song => song.Id == id).FirstOrDefaultAsync();
 
@@ -33,8 +36,12 @@ namespace AudioFingerPrinting.Servcies
         public async Task UpdateAsync(uint id, RecognizableSong updatedSong) =>
             await _songs.ReplaceOneAsync(x => x.Id == id, updatedSong);
 
-        public async Task RemoveAsync(uint id) =>
+        public async Task RemoveAsync(uint id)
+        {
             await _songs.DeleteOneAsync(x => x.Id == id);
+            await _fingerprints.DeleteManyAsync(x => x.songID == id);
+        }
+            
 
         /// <summary>
         /// <para>Add a new song to the database.</para>

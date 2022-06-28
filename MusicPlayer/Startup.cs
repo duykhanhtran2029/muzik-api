@@ -9,6 +9,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Database.MusicPlayer.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Configuration;
 
 namespace MusicPlayer
 {

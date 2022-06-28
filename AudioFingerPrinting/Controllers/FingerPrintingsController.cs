@@ -20,7 +20,6 @@ using NAudio.Wave;
 using CoreLib.Tools;
 using CoreLib;
 using Database.AudioFingerPrinting;
-using MusicPlayer.Servcies;
 
 namespace AudioFingerPrinting.Controllers
 {
@@ -41,19 +40,32 @@ namespace AudioFingerPrinting.Controllers
             _settings = settings;
             _songSvc = songSvc;
         }
-        [HttpGet]
-        public async Task<List<RecognizableSong>> Get() => await _songSvc.GetAsync();
 
-        [HttpGet("{songID}")]
-        public async Task<ActionResult<RecognizableSong>> Get(uint songID)
+        [HttpPost("{songName}")]
+        public async Task<IActionResult> Post(string songName)
         {
-            var song = await _songSvc.GetAsync(songID);
-            if (song is null)
-                return NotFound();
-            return song;
+            var song = await _songSvc.GetSongByNameAsync(songName);
+            if (song != null)
+            {
+                return NoContent();
+            }
+            RecognizableSong newSong = new RecognizableSong(_songSvc.newId(), songName);
+            _songSvc.CreateAsync(newSong);
+
+            string path = await _blobStorageSvc.GetFileBlobAsync(_settings.SongsContainer, newSong.Name + ".mp3");
+            MemoryStream stream = AudioReader.WavConverter(path);
+            _songSvc.AddNewSong(stream.ToArray(), newSong.Id);
+            stream.Dispose();
+
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+
+            return Ok(newSong);
         }
 
-        [HttpPost("FingerPrinting")]
+        [HttpPost]
         public async Task<IActionResult> ProcessRecord([FromBody] Record_RequestDTO request)
         {
             string path = await _blobStorageSvc.GetFileBlobAsync(_settings.RecordsContainer, request.FileName);
@@ -70,13 +82,13 @@ namespace AudioFingerPrinting.Controllers
 
             await _blobStorageSvc.DeleteFileBlobAsync(_settings.RecordsContainer, request.FileName);
 
-            return this.Ok(jsonResult);
+            return Ok(jsonResult);
         }
 
-        [HttpDelete("{songID}")]
-        public async Task<IActionResult> Delete(uint songID)
+        [HttpDelete("{songName}")]
+        public async Task<IActionResult> Delete(string songName)
         {
-            var song = await _songSvc.GetAsync(songID);
+            var song = await _songSvc.GetSongByNameAsync(songName);
 
             if (song is null)
             {

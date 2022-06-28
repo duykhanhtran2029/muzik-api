@@ -5,8 +5,19 @@ using Newtonsoft.Json;
 
 namespace Database.AudioFingerPrinting
 {
-    public class RecognizableSong
+	public class RecognizableSong
 	{
+		public RecognizableSong(uint id, string name)
+		{
+			Id = id;
+			Name = name;
+		}
+
+		public RecognizableSong()
+        {
+
+        }
+
 		[BsonId]
 		[BsonElement("_id")]
 		public ObjectId _Id { get; set; }

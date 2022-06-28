@@ -8,7 +8,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using CoreLib;
-using MusicPlayer.Servcies;
 
 namespace AudioFingerPrinting
 {
