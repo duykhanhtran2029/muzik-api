@@ -87,7 +87,7 @@ namespace MusicPlayer.Controllers
             return song;
         }
 
-        [HttpPut("{id}/listened")]
+        [HttpGet("{id}/listened")]
         public async Task<ActionResult<Song>> ListenedSong(string id)
         {
             var song = await _context.Song.FindAsync(id);
@@ -117,7 +117,7 @@ namespace MusicPlayer.Controllers
             return song;
         }
 
-        [HttpPut("{id}/downloaded")]
+        [HttpGet("{id}/downloaded")]
         public async Task<ActionResult<Song>> DownloadedSong(string id)
         {
             var song = await _context.Song.FindAsync(id);
@@ -148,7 +148,7 @@ namespace MusicPlayer.Controllers
         }
 
 
-        [HttpPut("{id}/recognizen")]
+        [HttpGet("{id}/recognizen")]
         public async Task<ActionResult<Song>> RecognizenSong(string id)
         {
             var song = await _context.Song.FindAsync(id);
