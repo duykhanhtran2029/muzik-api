@@ -55,33 +55,28 @@ namespace MusicPlayer.Controllers
         // PUT: api/PlaylistSongs/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPlaylistSong(string id, PlaylistSong playlistSong)
+        [HttpPut]
+        public async Task<ActionResult<IEnumerable<SongDTO>>> PutPlaylistSong([FromBody] PlaylistSong playlistSong)
         {
-            if (id != playlistSong.PlaylistId)
+            PlaylistSong song = await _context.PlaylistSong.FirstOrDefaultAsync(s => s.SongId == playlistSong.SongId && s.PlaylistId == playlistSong.PlaylistId);
+            if (song == null)
             {
-                return BadRequest();
+                return NotFound();
+            }
+            _context.PlaylistSong.Remove(song);
+            await _context.SaveChangesAsync();
+
+            var songs = await _context.PlaylistSong
+       .Where(_playlistSong => _playlistSong.PlaylistId == playlistSong.PlaylistId)
+       .Select(playlistSong => new SongDTO(playlistSong.Song, (playlistSong.Song.ArtistSong.Select(a => a.Artist).ToList()))).ToListAsync();
+
+            if (!songs.Any())
+            {
+                return NoContent();
             }
 
-            _context.Entry(playlistSong).State = EntityState.Modified;
+            return songs;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PlaylistSongExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
         }
 
         // POST: api/PlaylistSongs
