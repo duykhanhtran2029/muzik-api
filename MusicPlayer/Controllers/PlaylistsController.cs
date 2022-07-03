@@ -41,37 +41,6 @@ namespace MusicPlayer.Controllers
             return playlist;
         }
 
-        // PUT: api/Playlists/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPlaylist(string id, Playlist playlist)
-        {
-            if (id != playlist.PlaylistId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(playlist).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PlaylistExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
 
         // POST: api/Playlists
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
@@ -137,5 +106,40 @@ namespace MusicPlayer.Controllers
 
             return playlists;
         }
+
+
+        // PUT: api/Playlists/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutPlaylist(string id, [FromBody] Playlist data)
+        {
+            Playlist playlist= await _context.Playlist.FirstOrDefaultAsync(s => s.PlaylistId == id);
+            playlist.PlaylistName= data.PlaylistName;
+            playlist.Thumbnail = data.Thumbnail;
+            playlist.IsPrivate = data.IsPrivate;
+            playlist.SortDescription = data.SortDescription;
+            playlist.Thumbnail = data.Thumbnail;
+
+            _context.Entry(playlist).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!PlaylistExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return NoContent();
+        }
+
     }
 }
