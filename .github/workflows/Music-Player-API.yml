@@ -2,10 +2,10 @@ name: Build and deploy .NET Core application to windows webapp Music-Player-API 
 on:
   push:
     branches:
-    - main
+    - release/music-player
 env:
   AZURE_WEBAPP_NAME: Music-Player-API
-  DOTNET_CORE_VERSION: 5.0.x
+  DOTNET_CORE_VERSION: 3.1.x
   WORKING_DIRECTORY: MusicPlayer
   CONFIGURATION: Release
   AZURE_WEBAPP_PACKAGE_PATH: MusicPlayer/publish
@@ -64,7 +64,7 @@ jobs:
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-        publish-profile: ${{ secrets.Music_Player_API_308d }}
+        publish-profile: ${{ secrets.Music_Player_API_fce2 }}
     - name: Azure Login
       uses: azure/login@v1
       with:
