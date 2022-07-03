@@ -149,14 +149,14 @@ namespace MusicPlayer.Controllers
 
 
         [HttpGet("{id}/recognizen")]
-        public async Task<ActionResult<Song>> RecognizenSong(string id)
+        public async Task<ActionResult<Song>> RecognizenSong(string id, [FromQuery] bool isRecognizable)
         {
             var song = await _context.Song.FindAsync(id);
             if (song == null)
             {
                 return NotFound();
             }
-            song.IsRecognizable = true;
+            song.IsRecognizable = isRecognizable;
             _context.Entry(song).State = EntityState.Modified;
 
             try

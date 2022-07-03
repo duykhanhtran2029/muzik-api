@@ -41,7 +41,7 @@ namespace AudioFingerPrinting.Controllers
             _songSvc = songSvc;
         }
 
-        [HttpPost("{songName}")]
+        [HttpGet("{songName}")]
         public async Task<IActionResult> Post(string songName)
         {
             var song = await _songSvc.GetSongByNameAsync(songName);
@@ -62,7 +62,7 @@ namespace AudioFingerPrinting.Controllers
                 System.IO.File.Delete(path);
             }
 
-            return Ok(newSong);
+            return Ok();
         }
 
         [HttpPost]
