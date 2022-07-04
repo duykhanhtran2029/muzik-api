@@ -24,7 +24,7 @@ namespace MusicPlayer.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Playlist>>> GetPlaylist()
         {
-            return await _context.Playlist.ToListAsync();
+            return await _context.Playlist.Where(s => !s.IsDeleted).ToListAsync();
         }
 
         // GET: api/Playlists/5
@@ -78,10 +78,26 @@ namespace MusicPlayer.Controllers
                 return NotFound();
             }
 
-            _context.Playlist.Remove(playlist);
-            await _context.SaveChangesAsync();
+            playlist.IsDeleted = true;
+            _context.Entry(playlist).State = EntityState.Modified;
 
-            return playlist;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!PlaylistExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
         private bool PlaylistExists(string id)
@@ -95,7 +111,7 @@ namespace MusicPlayer.Controllers
         {
             
             var playlists = await _context.Playlist
-                .Where(playlist => playlist.UserId == id)
+                .Where(playlist => playlist.UserId == id && !playlist.IsDeleted)
                 .Select(playlist => playlist)
                 .ToListAsync();
 
