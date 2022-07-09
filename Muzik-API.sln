@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		C:\Users\Admins\Downloads\database.png = C:\Users\Admins\Downloads\database.png
+		.github\workflows\Music-Player-API.yml = .github\workflows\Music-Player-API.yml
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -25,7 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{63EDE9B8-7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataProcessor", "DataProcessor\DataProcessor.csproj", "{3B822292-463D-4235-9CDE-A5E169D0894D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureHelper", "AzureHelper\AzureHelper.csproj", "{48809F75-16D0-4F13-9298-3A9C4CE1110A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureHelper", "AzureHelper\AzureHelper.csproj", "{48809F75-16D0-4F13-9298-3A9C4CE1110A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
