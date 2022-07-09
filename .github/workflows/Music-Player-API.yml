@@ -5,7 +5,7 @@ on:
     - main
 env:
   AZURE_WEBAPP_NAME: Music-Player-API
-  DOTNET_CORE_VERSION: 5.0.x
+  DOTNET_CORE_VERSION: 3.1.x
   WORKING_DIRECTORY: MusicPlayer
   CONFIGURATION: Release
   AZURE_WEBAPP_PACKAGE_PATH: MusicPlayer/publish
