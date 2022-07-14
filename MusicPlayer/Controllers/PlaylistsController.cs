@@ -157,5 +157,35 @@ namespace MusicPlayer.Controllers
             return NoContent();
         }
 
+
+        // GET: api/Playlists
+        [HttpGet("genres/{id}")]
+        public async Task<ActionResult<IEnumerable<Playlist>>> GetGenre(string id)
+        {
+            switch (id)
+            {
+                case "2":
+                    return await _context.Playlist.Where(s => !s.IsDeleted && !s.IsPrivate 
+                    && (s.PlaylistId == "69I8C799" || s.PlaylistId == "69I8CU7C" || s.PlaylistId == "69I8CZFB" ||
+                    s.PlaylistId == "ZBD8A996" || s.PlaylistId == "ZOEFUA0O" || s.PlaylistId == "ZOCZU0D6")).ToListAsync();
+                    break;
+
+                case "3":
+                    return await _context.Playlist.Where(s => !s.IsDeleted && !s.IsPrivate
+                    && (s.PlaylistId == "ZOE0OE0W" || s.PlaylistId == "ZOUBOE9F" || s.PlaylistId == "ZOUIIC6C" ||
+                    s.PlaylistId == "ZWZCZICU" || s.PlaylistId == "ZF89F8UO" || s.PlaylistId == "606OB9ZA")).ToListAsync();
+                    break;
+                case "4":
+                    return await _context.Playlist.Where(s => !s.IsDeleted && !s.IsPrivate
+                    && (s.PlaylistId == "ZWZB969E" || s.PlaylistId == "ZWZB96AA" || s.PlaylistId == "ZWZB96AB" ||
+                    s.PlaylistId == "ZWZB96C7" || s.PlaylistId == "ZWZB96C9" || s.PlaylistId == "ZWZB96DC")).ToListAsync();
+                    break;
+                default:
+                    return await _context.Playlist.Where(s => !s.IsDeleted).ToListAsync();
+                    break;
+
+            }
+            return NoContent();
+        }
     }
 }
